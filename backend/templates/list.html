@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Street Gallery</title>
+  <link rel="icon" href="../static/img/logo/favicon2.ico">
+  <link rel="stylesheet" href="../static/css/header.css">
+  <link rel="stylesheet" href="../static/css/footer.css">
+  <link rel="stylesheet" href="../static/css/loader.css">
+  <link rel="stylesheet" href="../static/css/list.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.11.0/lottie.min.js"
+    integrity="sha512-XCthc/WzPfa+oa49Z3TI6MUK/zlqd67KwyRL9/R19z6uMqBNuv8iEnJ8FWHUFAjC6srr8w3FMZA91Tfn60T/9Q=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+
+<body>
+  <div class="loader">
+    <div id="animContainer">
+
+    </div>
+  </div>
+  <header>
+    <ul>
+      <a href="{{ url_for('index') }}" id="logo-container">
+        <li><img src="../static/img/PublicArt.png" alt="" id="logo"></li>
+      </a>
+    </ul>
+    <ul>
+      <a href="{{ url_for('list') }}">
+        <li>작품목록</li>
+      </a>
+      <a href="{{ url_for('quiz') }}">
+        <li>퀴즈</li>
+      </a>
+      <a href="{{ url_for('patch') }}">
+        <li>패치노트</li>
+      </a>
+    </ul>
+    {% if session["nickname"] %}
+    <ul>
+      <a href="{{ url_for('setting') }}">
+        <li>{{session["nickname"]}}</li>
+      </a>
+      <a href="{{ url_for('logout') }}">
+        <li>로그아웃</li>
+      </a>
+    </ul>
+    {% else %}
+    <ul>
+      <a href="{{ url_for('login') }}">
+        <li>로그인</li>
+      </a>
+      <a href="{{ url_for('signup') }}">
+        <li>회원가입</li>
+      </a>
+    </ul>
+    {% endif %}
+  </header>
+  <main>
+    {% if not session['nickname'] %}
+    <div class="blur">
+      <div id="popup-box">
+        <a href="{{ url_for('login') }}">
+          <div id="goto-login">
+            <span style="font-size: 3vw;" class="material-symbols-outlined">login</span>
+            <span>로그인 하러가기</span>
+          </div>
+        </a>
+      </div>
+    </div>
+    {% endif %}
+    <div id="board">
+      <div id="searchbox">
+        <h1>작품목록</h1>
+        <form action="{{ url_for('list', page=1) }}" method="get" name="search" id="searchform">
+          <input type="text" placeholder="검색어입력" name="searchquery" id="searchquery" autocomplete="off" required>
+          <button type="submit" id="submit"><span style="font-size: 1.8vw;" class="material-symbols-outlined">
+              search
+            </span></button>
+        </form>
+      </div>
+      {% for item in data %}
+      <a href="{{ url_for('detail', name=item.name) }}">
+        <div class="box">
+          <div class="box-inner">
+            <h2>{{ item.name }}</h2>
+            <!-- <p>{{ item.description }}</p> -->
+            <p>Year: {{ item.year }}</p>
+            <p>Address: {{ item.address }}</p>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+      <div id="page">
+        <ul class="pagination">
+          {% if current_page > 1 %}
+          <a href="{{ url_for('list', page=current_page-1, searchquery=searchquery) }}"><li id="prev"><span><span class="material-symbols-outlined" style="color: white;">
+            arrow_back_ios
+          </span></span></li></a>
+          {% else %}
+          <a href="{{ url_for('list', page=1, searchquery=searchquery) }}"><li id="prev"><span><span class="material-symbols-outlined" style="color: white;">
+            arrow_back_ios
+          </span></span></li></a>
+          {% endif %}
+          {% for i in range(start, end) %}
+          <a href="{{ url_for('list', page=i, searchquery=searchquery) }}"><li><span>{{i}}</span></li></a>
+          {% endfor %}
+          {% if current_page < total %} 
+          <a href="{{ url_for('list', page=current_page+1, searchquery=searchquery) }}"><li id="next"><span><span class="material-symbols-outlined" style="color: white;">
+            arrow_forward_ios
+          </span></span></li></a>
+          {% else %}
+          <a href="{{ url_for('list', page=total, searchquery=searchquery) }}"><li id="next"><span><span class="material-symbols-outlined" style="color: white;">
+            arrow_forward_ios
+          </span></span></li></a>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </main>
+  <script>
+    var lottieAnim = lottie.loadAnimation({
+      container: document.getElementById("animContainer"), // the dom element that will contain the animation
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: 'https://assets6.lottiefiles.com/temp/lf20_92d2Bu.json' // the path to the animation json
+    });
+  </script>
+  <script>
+    window.addEventListener("load", function () {
+      document.querySelector(".loader").className = 'loaded';
+    });
+  </script>
+  <script>
+    let form = document.search;
+    let query = document.getElementById("searchquery")
+
+    document.getElementById("submit").onclick = function () {
+      if (query.value == null || query.value.replace(" ", "") == '') {
+        query.setCustomValidity("검색어를 넣어주세요");
+        query.reportValidity()
+
+        return false
+      }
+    }
+  </script>
+  <script>
+    let queryString = window.location.search;
+    let urlParams = new URLSearchParams(queryString);
+    let currentPage = parseInt(urlParams.get('page'));
+    
+    console.log(currentPage)
+
+    let liEliments = document.querySelectorAll('#page li')
+
+    console.log(liEliments)
+
+    liEliments.forEach(function (liElement) {
+      let spanElement = liElement.querySelector('span');
+      let pageValue = parseInt(spanElement.textContent);
+
+       if (pageValue === currentPage) {
+        liElement.classList.add('current');
+      }
+    })
+    // document.addEventListener('DOMContentLoaded', function () {
+    //     // 현재 페이지의 쿼리스트링에서 'page' 값을 가져옵니다.
+        
+    //     // 모든 li 요소를 선택합니다.
+
+
+    //     // 각 li 요소를 반복하면서 현재 페이지와 값을 비교하여 current 클래스를 추가합니다.
+    //     liElements.forEach(function (liElement) {
+    //       var spanElement = liElement.querySelector('span');
+    //       var aElement = spanElement.querySelector('a');
+    //       var pageValue = parseInt(aElement.textContent);
+
+    //       console.log(liElement, pageValue, currentPage)
+
+    //       if (pageValue === currentPage) {
+    //         liElement.classList.add('current');
+    //       }
+    //     });
+    //   });
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script>
+    // fetch('/getdata')
+    //   .then(response => response.text())
+    //   .then(data => {
+    //     document.querySelector('#board').textContent = data;
+    //   });
+    // window.onload = function () {
+    //   let total;
+
+    //   fetch(`/getdata`)
+    //     .then(response => response.text())
+    //     .then(data => {
+    //       total = parseInt(data);
+
+    //       let urlParams = new URLSearchParams(window.location.search);
+    //       let page = urlParams.get('page');
+
+    //       if (page < 1) {
+    //         page = 1;
+    //       } else if (page > total) {
+    //         page = total;
+    //       }
+
+    //       // 페이지 관련 처리 로직 구현
+    //       urlParams.set('page', page);
+    //       window.location.search = urlParams.toString();
+    //     });
+    // }
+
+
+    // const urlParams = new URLSearchParams(window.location.search)
+    // const page = urlParams.get('page')
+
+    // let lastpage = 10
+    // let startpage = 1
+    // let curpage = page
+
+    // if(!curpage || curpage < 1 || curpage == '' || curpage == ' ' || curpage == null){
+    //   curpage = 1
+    // }
+
+
+    // page 값이 falsy한 값(null, undefined, 0, '', false 등)이라면 page 변수를 1로 설정
+    // if (!page) {
+    //   const params = new URLSearchParams();
+    //   params.set('page', 1);
+    // }
+
+    // fetch('/getdata', {
+    //     method: 'GET',
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({
+
+    //     })
+    //   })
+    //   .then(response => response.text())
+    //   .then(data => {
+    //     // totalpage = parseInt(data);
+    //   });
+  </script>
+  <script>
+    // function next() {
+    //   fetch('/list', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({
+    //       button: "next"
+    //     })
+    //   })
+    //   .then(response => response.text())
+    //   .then(data => {
+    //     // totalpage = parseInt(data);
+    //   });
+    // }
+
+    // function prev() {
+    //   fetch('/list', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({
+    //       button: "prev"
+    //     })
+    //   })
+    //   .then(response => response.text())
+    //   .then(data => {
+    //     // totalpage = parseInt(data);
+    //   });
+    // }
+  </script>
+</body>
+
+</html>

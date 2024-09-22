@@ -1,0 +1,228 @@
+@import url("https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&family=Noto+Sans+KR&display=swap");
+
+header {
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+  z-index: 9995;
+  /* border: 1px solid black; */
+  /* background: #9D50BB;  
+    background: -webkit-linear-gradient(to right, #6E48AA, #9D50BB);  
+    background: linear-gradient(to right, #6E48AA, #9D50BB);  */
+}
+
+header > ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-family: "EB Garamond", serif;
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  padding: 0;
+}
+
+#logo-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#logo {
+  height: auto;
+  max-height: 100%;
+  width: auto;
+  max-width: 100%;
+}
+
+header > ul > a > li {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  font-family: "Do Hyeon", sans-serif;
+  font-family: "Jua", sans-serif;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+header > ul > a {
+  height: 100%;
+}
+
+header > ul > a:link {
+  color: black;
+  text-decoration-line: none;
+}
+
+/* visited link */
+header > ul > a:visited {
+  color: black;
+  text-decoration-line: none;
+}
+
+/* mouse over link */
+header > ul:not(:first-child) > a:hover {
+  background-color: rgb(122, 122, 250);
+  color: white;
+  /* text-shadow: -1px 0px #fdfd96, 0px 1px #fdfd96, 1px 0px #fdfd96, 0px -1px #fdfd96; */
+  text-decoration-line: none;
+  transition: 1s;
+}
+
+/* selected link */
+header > ul > a:active {
+  color: black;
+  text-decoration-line: none;
+}
+
+@media only screen and (max-width: 768px) {
+  #logo {
+    width: 17vw;
+    margin-left: 2vw;
+  }
+
+  header ul:nth-child(2) a li {
+    margin: 0 2vw;
+    font-size: 3.2vw;
+  }
+
+  header ul:last-child a li {
+    margin: 0 2vw;
+    font-size: 3.2vw;
+  }
+
+  header {
+    box-shadow: 0 4px 4px -4px black;
+  }
+
+  #logo-container > li {
+    margin: 1vw 0;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  #logo {
+    width: 12vw;
+    margin-left: 2vw;
+  }
+
+  header ul:nth-child(2) a li {
+    margin: 0 2vw;
+    font-size: 2vw;
+  }
+
+  header ul:last-child a li {
+    margin: 0 2vw;
+    font-size: 2vw;
+  }
+
+  header {
+    box-shadow: 0 6px 6px -6px black;
+  }
+
+  #logo-container > li {
+    margin: 1vw 0;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  #logo {
+    width: 10vw;
+    margin-left: 2.5vw;
+  }
+
+  header ul:nth-child(2) a li {
+    margin: 0 2vw;
+    font-size: 1.6vw;
+  }
+
+  header ul:last-child a li {
+    margin: 0 2vw;
+    font-size: 1.6vw;
+  }
+
+  header {
+    box-shadow: 0 8px 8px -8px black;
+  }
+
+  #logo-container > li {
+    margin: 0.5vw 0;
+  }
+}
+
+header > ul {
+  margin: 0;
+}
+
+/* @media only screen and (max-width: 767px) {
+    #logo {
+        width: 15vw;
+        margin: 0 1.5vw;
+        margin-top: 0.5vh;
+    }
+
+    header ul:nth-child(2) a li {
+        margin: 0 2vw;
+        font-size: 1.8vw;
+    }
+
+    header ul:last-child a li {
+        margin: 0 2vw;
+        font-size: 1.8vw;
+    }
+
+    header {
+        height: 50px;
+        line-height: 50px;
+        box-shadow: 0 4px 4px -4px black;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+    #logo {
+        width: 12vw;
+        margin: 0 1.5vw;
+        margin-top: 0.5vh;
+    }
+
+    header ul:nth-child(2) a li {
+        margin: 0 2vw;
+        font-size: 1.2vw;
+    }
+
+    header ul:last-child a li {
+        margin: 0 2vw;
+        font-size: 1.2vw;
+    }
+
+    header {
+        height: 60px;
+        line-height: 60px;
+        box-shadow: 0 6px 6px -6px black;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    #logo {
+        width: 12vw;
+        margin: 0 1.5vw;
+        margin-top: 0.5vh;
+    }
+
+    header ul:nth-child(2) a li {
+        margin: 0 2vw;
+        font-size: 1.4vw;
+    }
+
+    header ul:last-child a li {
+        margin: 0 2vw;
+        font-size: 1.4vw;
+    }
+
+    header {
+        height: 70px;
+        line-height: 70px;
+        box-shadow: 0 8px 8px -8px black;
+    }
+} */

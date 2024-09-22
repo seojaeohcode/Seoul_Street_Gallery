@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Street Gallery</title>
+    <link rel="icon" href="../static/img/logo/favicon2.ico">
+    <link rel="stylesheet" href="../static/css/header.css">
+    <link rel="stylesheet" href="../static/css/footer.css">
+    <link rel="stylesheet" href="../static/css/loader.css">
+    <link rel="stylesheet" href="../static/css/quizresult.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.11.0/lottie.min.js"
+        integrity="sha512-XCthc/WzPfa+oa49Z3TI6MUK/zlqd67KwyRL9/R19z6uMqBNuv8iEnJ8FWHUFAjC6srr8w3FMZA91Tfn60T/9Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+</head>
+
+<body>
+    <div class="loader">
+        <div id="animContainer">
+
+        </div>
+    </div>
+    <header>
+        <ul>
+            <a href="{{ url_for('index') }}" id="logo-container">
+                <li><img src="../static/img/PublicArt.png" alt="" id="logo"></li>
+            </a>
+        </ul>
+        <ul>
+            <a href="{{ url_for('list') }}">
+                <li>작품목록</li>
+            </a>
+            <a href="{{ url_for('quiz') }}">
+                <li>퀴즈</li>
+            </a>
+            <a href="{{ url_for('patch') }}">
+                <li>패치노트</li>
+            </a>
+        </ul>
+        {% if session["nickname"] %}
+        <ul>
+            <a href="{{ url_for('setting') }}">
+                <li>{{session["nickname"]}}</li>
+            </a>
+            <a href="{{ url_for('logout') }}">
+                <li>로그아웃</li>
+            </a>
+        </ul>
+        {% else %}
+        <ul>
+            <a href="{{ url_for('login') }}">
+                <li>로그인</li>
+            </a>
+            <a href="{{ url_for('signup') }}">
+                <li>회원가입</li>
+            </a>
+        </ul>
+        {% endif %}
+    </header>
+    <main>
+        <div class="description">
+            <h1>결과는 {{ score }}점 입니다.</h1>
+            <p>지금 푼 문제들은 해외사례입니다.</p>
+            <p>그렇다면 서울에 얼마나 많은 공공미술이 있는지 알고 계신가요?</p>
+            <p>저희 사이트에만 <span id="count">{{ total }}</span>개의 작품 목록이 있습니다.</p>
+            <p><span style="font-weight: bold;">홈화면에서 내 위치와 가장 가까운 작품을 체크</span>하고 도시 속 미술을 즐겨보세요!</p>
+            <p>참! 떠나시기 전에 SNS로 테스트를 공유해주시면 감사하겠습니다❤️</p>
+        </div>
+        <div>
+            <ul class="sns">
+                <li class="facebook" onclick="fn_sendFB('facebook');return false;" class="facebook" target="_self"
+                        title="페이스북 새창열림">
+                </li>
+                <li class="twitter" onclick="fn_sendFB('twitter');return false;" class="twitter" target="_self"
+                        title="트위터 새창열림">
+                </li>
+                <!-- <li class="band">
+                    <a href="#n" onclick="fn_sendFB('band');return false;" class="band" target="_self"
+                        title="네이버밴드 새창열림"><span class="skip">네이버밴드</span></a>
+                </li> -->
+                <li class="kakaotalk" id="btnKakao" onclick="fn_sendFB('kakaotalk');return false;" class="kakaotalk"
+                        target="_self" title="카카오톡 새창열림">
+                </li>
+            </ul>
+        </div>
+        <div class="description">
+            <h1>답지</h1>
+            <div class="solve">
+                <div class="img"><img src="../static/img/question/러버덕.jpeg" alt=""></div>
+                <div class="des">
+                    <p>작품명: 러버덕</p>
+                    <p>
+                        네덜란드의 설치 미술가인 플로렌타인 호프만이 제작한<br>
+                        대형 고무 오리 조형물입니다.<br>
+                        러버덕은 사회적 차별에 구애 받지 않고,<br> 
+                        전 세계인에게 평화와 행복의 메세지를<br>
+                        전달하기 위해 제작되었습니다.
+                    </p>
+                </div>
+            </div>
+            <div class="solve">
+                <div class="img"><img src="../static/img/question/7000나무.jpg" alt=""></div>
+                <div class="des">
+                    <p>작품명: 7000그루의 떡갈나무</p>
+                    <p>
+                        녹색당활동을 하고 있던 요셉 보이스가<br>
+                        지구의 사막화에 고민을 가지고<br>
+                        카셀 시내 곳곳에 7천 그루의 떡갈나무를<br>
+                        심을 계획을 세우면서 시작되었습니다.
+                    </p>
+                </div>
+            </div>
+            <div class="solve">
+                <div class="img"><img src="../static/img/question/북쪽의천사.png" alt=""></div>
+                <div class="des">
+                    <p>작품명: 북쪽의 천사</p>
+                    <p>
+                        2차 세계대전과 정부의 광산 폐쇄정책으로<br>
+                        지역주민들의 실업률은 높아지고<br>
+                        도시는 점점 황폐해져 시의회는 문화 주도를 통한<br>
+                        도시재생을 해결책으로<br>
+                        게이츠헤드라는 도시를 알릴 랜드마크를 세우기로 결심합니다.<br>
+                        그래서 의뢰를 받은 앤서니 곰리가 이 조각상을 만들고,<br>
+                        도시의 랜드마크가 됩니다.
+                    </p>
+                </div>
+            </div>
+            <div class="solve">
+                <div class="img"><img src="../static/img/question/크리스탈.jpg" alt=""></div>
+                <div class="des">
+                    <p>작품명: 크리스탈 퀼트</p>
+                    <p>
+                        크리스탈 퀼트는 미국에 사는 60세 이상의 나이인<br>
+                        430명의 여성들이 한 자리에 앉아<br>
+                        자신이 이제까지 살아온 과정과<br>
+                        현재 겪고있는 일들을 이야기를 나누게 함으로써<br>
+                        소외받는 여성과 노인 계층에 대해 사회가 자각하도록 하였습니다.
+                    </p>
+                </div>
+            </div>
+            <div class="solve">
+                <div class="img"><img src="../static/img/question/호박.jpg" alt=""></div>
+                <div class="des">
+                    <p>작품명: 호박</p>
+                    <p>
+                        쿠사마 야요이는 어릴 때 받은 학대로<br>
+                        강박증을 갖고 있습니다.<br>
+                        그녀의 정신병으로 인한 환각 이미지인 점이<br>
+                        작품의 특징이 되었고<br>
+                        그 중 호박은 작가에게 어린 시절 교감하던 자연을 상징하고<br>
+                        넉넉한 순수함을 의미한다고 합니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="result">
+            <h1>공공미술이란?</h1>
+            <p>
+                공공미술은 예술을 통해 사회적 문제를 다루고 상징적 메시지를 전달함으로써<br> 
+                공공적인 공간에서 사회적 대화와 인식을 확장시키며,<br>
+                예술의 힘을 통해 사회적 변화와 개선을 이끌어낼 수 있습니다.<br>
+            </p>
+            <h1>더 많은 작품 보러가기</h1>
+            <a href="{{ url_for('list') }}">
+                <button class="w-btn w-btn-gra2 w-btn-gra-anim">작품목록</button>
+            </a>
+        </div>
+    </main>
+    <script>
+        var lottieAnim = lottie.loadAnimation({
+            container: document.getElementById("animContainer"), // the dom element that will contain the animation
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: 'https://assets6.lottiefiles.com/temp/lf20_92d2Bu.json' // the path to the animation json
+        });
+    </script>
+
+    <script>
+        window.addEventListener("load", function () {
+            document.querySelector(".loader").className = 'loaded';
+        });
+    </script>
+    <script>
+        function fn_sendFB(sns) {
+            let thisUrl = document.URL;
+            let newUrl = 'https://streetgall.net/quiz';
+            console.log(newUrl)
+            let snsTitle = "스트리트갤러리";
+            if (sns == 'facebook') {
+                let url = "http://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(newUrl);
+                window.open(url, "", "width=486, height=286");
+            }
+            else if (sns == 'twitter') {
+                let url = "http://twitter.com/share?url=" + encodeURIComponent(newUrl) + "&text=" + encodeURIComponent(snsTitle);
+                window.open(url, "tweetPop", "width=486, height=286,scrollbars=yes");
+            }
+            // else if (sns == 'band') {
+            //     let url = "http://www.band.us/plugin/share?body=" + encodeURIComponent(snsTitle) + "&route=" + encodeURIComponent(newUrl);
+            //     window.open(url, "shareBand", "width=400, height=500, resizable=yes");
+            // }
+            else if (sns == 'kakaotalk') {
+
+                // 카카오링크 버튼 생성
+                Kakao.Link.createDefaultButton({
+                    container: '#btnKakao', // HTML에서 작성한 ID값
+                    objectType: 'feed',
+                    content: {
+                        title: snsTitle, // 보여질 제목
+                        description: "공공미술 능력평가", // 보여질 설명
+                        imageUrl: newUrl, // 콘텐츠 URL
+                        link: {
+                            mobileWebUrl: newUrl,
+                            webUrl: newUrl
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+    <script>
+        // 카운트를 표시할 요소
+            const counter = document.getElementById("count");
+
+            // 목표수치
+            const max = counter.textContent;
+
+            counterfunc(counter, max);
+
+            function counterfunc($counter, max) {
+                    let now = max;
+
+                    const handle = setInterval(() => {
+                        counter.innerHTML = Math.ceil(max - now);
+
+                        // 목표에 도달하면 정지
+                        if (now < 1) {
+                            clearInterval(handle);
+                        }
+
+                        // 적용될 수치, 점점 줄어듬
+                        const step = now / 10;
+
+                        now -= step;
+                    }, 50);
+                }
+    </script>
+</body>
+
+</html>

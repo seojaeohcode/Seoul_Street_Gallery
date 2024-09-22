@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Street Gallery</title>
+    <link rel="icon" href="../static/img/logo/favicon2.ico">
+    <link rel="stylesheet" href="../static/css/header.css">
+    <link rel="stylesheet" href="../static/css/footer.css">
+    <link rel="stylesheet" href="../static/css/loader.css">
+    <link rel="stylesheet" href="../static/css/login.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.11.0/lottie.min.js"
+        integrity="sha512-XCthc/WzPfa+oa49Z3TI6MUK/zlqd67KwyRL9/R19z6uMqBNuv8iEnJ8FWHUFAjC6srr8w3FMZA91Tfn60T/9Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
+        integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+    <div class="loader">
+        <div id="animContainer">
+
+        </div>
+    </div>
+    <header>
+        <ul>
+            <a href="{{ url_for('index') }}" id="logo-container">
+                <li><img src="../static/img/PublicArt.png" alt="" id="logo"></li>
+            </a>
+        </ul>
+        <ul>
+            <a href="{{ url_for('list') }}">
+                <li>작품목록</li>
+            </a>
+            <a href="{{ url_for('quiz') }}">
+                <li>퀴즈</li>
+            </a>
+            <a href="{{ url_for('patch') }}">
+                <li>패치노트</li>
+            </a>
+        </ul>
+        {% if session["nickname"] %}
+        <ul>
+            <a href="{{ url_for('setting') }}">
+                <li>{{session["nickname"]}}</li>
+            </a>
+            <a href="{{ url_for('logout') }}">
+                <li>로그아웃</li>
+            </a>
+        </ul>
+        {% else %}
+        <ul>
+            <a href="{{ url_for('login') }}">
+                <li>로그인</li>
+            </a>
+            <a href="{{ url_for('signup') }}">
+                <li>회원가입</li>
+            </a>
+        </ul>
+        {% endif %}
+    </header>
+    <main>
+        <h1>Login</h1>
+        <form id="Login" action="/accountcheck" method="post" name="Login">
+            <div class="int-area">
+                <input type="text" name="id" id="id" autocomplete="off" required>
+                <label for="id" id="input-label-id">ID</label>
+            </div>
+            <div class="int-area">
+                <input type="password" name="password" id="password" autocomplete="off" required>
+                <label for="password" id="input-label-password">Password</label>
+            </div>
+            <div class="btn-area">
+                <button type="submit" id="submit">로그인</button>
+            </div>
+        </form>
+    </main>
+    <script>
+        var lottieAnim = lottie.loadAnimation({
+            container: document.getElementById("animContainer"), // the dom element that will contain the animation
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: 'https://assets6.lottiefiles.com/temp/lf20_92d2Bu.json' // the path to the animation json
+        });
+    </script>
+
+    <script>
+        window.addEventListener("load", function () {
+            document.querySelector(".loader").className = 'loaded';
+        });
+    </script>
+
+    <script>
+        let urlParams = new URLSearchParams(window.location.search);
+        let alertdata = urlParams.get('alertdata');
+        if (alertdata == 'true' || alertdata == 'True') {
+            alert("다시 로그인해주세요!")
+        }
+    </script>
+    <script>
+        // document.onkeydown = function (e) {
+        //     if (e.keyCode == 116 || e.ctrlKey == true && (e.keyCode == 82)) {
+        //         history.replaceState({}, null, location.pathname);
+        //     }
+        // }
+        // window.addEventListener("unload", function () {
+
+        // })
+        // if (self.screenTop > 9000) {
+        //     console.log("닫힘")
+        // }
+        // else {
+        //     if (document.readyState == "complete") {
+        //         history.replaceState({}, null, location.pathname);
+        //     }
+        //     else if (document.readyState == "loading") {
+        //         // 다른 사이트로 이동
+        //     }
+        // }
+        document.addEventListener("DOMContentLoaded", () => {
+            history.replaceState({}, null, location.pathname);
+        });
+    </script>
+    <script>
+        let id = document.getElementById("id")
+        let password = document.getElementById("password")
+        let labelId = document.getElementById("input-label-id");
+        let labelPassword = document.getElementById("input-label-password");
+
+        id.addEventListener("input", function () {
+            toggleInputLabel(id, labelId);
+        });
+
+        password.addEventListener("input", function () {
+            toggleInputLabel(password, labelPassword);
+        });
+
+        document.getElementById("submit").onclick = function () {
+            // pw / confirm 비교
+            if (id.value == null || id.value.replace(" ", "") == '') {
+                id.setCustomValidity("아이디를 넣어주세요");
+                id.reportValidity()
+
+                return false
+            }
+            else if (password.value == null || password.value.replace(" ", "") == '') {
+                password.setCustomValidity("비밀번호를 넣어주세요");
+                password.reportValidity()
+
+                return false
+            }
+            else {
+                return true
+            }
+        }
+
+        function toggleInputLabel(input, label) {
+            if (input.value.trim() !== "") {
+                label.classList.add("input-focused");
+            } else {
+                label.classList.remove("input-focused");
+            }
+        }
+    </script>
+</body>
+
+</html>

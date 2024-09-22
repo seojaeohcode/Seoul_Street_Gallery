@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Street Gallery</title>
+    <link rel="icon" href="../static/img/logo/favicon2.ico">
+    <link rel="stylesheet" href="../static/css/header.css">
+    <link rel="stylesheet" href="../static/css/footer.css">
+    <link rel="stylesheet" href="../static/css/loader.css">
+    <link rel="stylesheet" href="../static/css/quiz.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.11.0/lottie.min.js"
+        integrity="sha512-XCthc/WzPfa+oa49Z3TI6MUK/zlqd67KwyRL9/R19z6uMqBNuv8iEnJ8FWHUFAjC6srr8w3FMZA91Tfn60T/9Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+    <div class="loader">
+        <div id="animContainer">
+
+        </div>
+    </div>
+    <header>
+        <ul>
+            <a href="{{ url_for('index') }}" id="logo-container">
+                <li><img src="../static/img/PublicArt.png" alt="" id="logo"></li>
+            </a>
+        </ul>
+        <ul>
+            <a href="{{ url_for('list') }}">
+                <li>작품목록</li>
+            </a>
+            <a href="{{ url_for('quiz') }}">
+                <li>퀴즈</li>
+            </a>
+            <a href="{{ url_for('patch') }}">
+                <li>패치노트</li>
+            </a>
+        </ul>
+        {% if session["nickname"] %}
+        <ul>
+            <a href="{{ url_for('setting') }}">
+                <li>{{session["nickname"]}}</li>
+            </a>
+            <a href="{{ url_for('logout') }}">
+                <li>로그아웃</li>
+            </a>
+        </ul>
+        {% else %}
+        <ul>
+            <a href="{{ url_for('login') }}">
+                <li>로그인</li>
+            </a>
+            <a href="{{ url_for('signup') }}">
+                <li>회원가입</li>
+            </a>
+        </ul>
+        {% endif %}
+    </header>
+    <main>
+        <div id="description">
+            <h3>재미로 하는</h3>
+            <h1>공공미술 능력고사</h1>
+            <h2>
+                나는 공공미술 작품을 얼마나 알까?
+            </h2>
+            {% if session["nickname"] %}
+            <h3>
+                이름: {{ session["nickname"] }}<br> 
+                수험번호: {{ date }}
+            </h3>
+            {% else %}
+            <h3>수험번호: {{ date }}</h3>
+            {% endif %}
+        </div>
+        <div class="start">
+            <button id="start-button" class="w-btn-neon2">테스트 시작하기!</button>
+        </div>
+        {% set question_length = question|length %}
+        {% for i in range(question_length) %}
+        {% set choices = question[i] %}
+        {% set image = images[i] %}
+        <div class="question hidden">
+            <div class="questbox">
+                <p class="questtext">Q: 다음 사진을 보고 알맞은 작품 이름을 골라주세요.</p>
+                <div class="questimg"><img src="{{ image|safe }}" alt=""></div>
+            </div>
+            <ul>
+                <li class="answer"><span>①</span><span class="real-answer">{{ choices[0] }}</span></li>
+                <li class="answer"><span>②</span><span class="real-answer">{{ choices[1] }}</span></li>
+                <li class="answer"><span>③</span><span class="real-answer">{{ choices[2] }}</span></li>
+                <li class="answer"><span>④</span><span class="real-answer">{{ choices[3] }}</span></li>
+                <li class="answer"><span>⑤</span><span class="real-answer">{{ choices[4] }}</span></li>
+            </ul>
+        </div>
+        {% endfor %}
+    </main>
+    <script>
+        var lottieAnim = lottie.loadAnimation({
+            container: document.getElementById("animContainer"), // the dom element that will contain the animation
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: 'https://assets6.lottiefiles.com/temp/lf20_92d2Bu.json' // the path to the animation json
+        });
+    </script>
+
+    <script>
+        window.addEventListener("load", function () {
+            document.querySelector(".loader").className = 'loaded';
+        });
+    </script>
+
+    <script>
+        let now = 0
+        let omr = []
+
+        const resultMessage = document.createElement('h1');
+        resultMessage.textContent = '채점 중입니다...';
+        resultMessage.classList.add('result-message');
+
+        const startButton = document.getElementById('start-button');
+        const questions = document.querySelectorAll('.question');
+
+        questions.forEach((question, index) => {
+            question.classList.add('hidden');
+        });
+
+        startButton.addEventListener('click', () => {
+                document.getElementById('description').classList.add('hidden');
+                document.querySelector('.start').classList.add('hidden');
+                questions[0].classList.remove('hidden');
+            });
+
+        const answers = document.querySelectorAll('.answer');
+
+        // 각 선지에 대해 이벤트 리스너를 추가합니다
+        answers.forEach(answer => {
+            answer.addEventListener('click', () => {
+                const realAnswer = answer.querySelector('.real-answer').textContent;
+                omr[now] = realAnswer;
+
+                const currentQuestion = answer.closest('.question');
+                currentQuestion.classList.add('hidden');
+
+                const nextQuestion = currentQuestion.nextElementSibling;
+                if (nextQuestion) {
+                    nextQuestion.classList.remove('hidden');
+                    now += 1
+                } else {
+                    document.querySelector('main').appendChild(resultMessage);
+                    const omrParam = omr.join(",");
+                    const url = "/quizresult?omr=" + encodeURIComponent(omrParam);
+                    window.location.href = url;
+                }
+            });
+        });
+
+    //
+
+                //if (now >= 5) {
+                //    fetch('/quizresult', {
+                //        method: 'POST',
+                //        headers: {
+                //            'Content-Type': 'application/json'
+                //        },
+                //        body: JSON.stringify({
+                //            omr: omr,
+                //        })
+                //    })
+                //        .then(response => response.json())
+                //        .then(data => {
+                //            const score = data.score;  // 서버에서 전달한 점수 값
+                //
+                //            // 점수를 유지하면서 리디렉션을 처리하는 함수
+                //            const handleRedirect = () => {
+                //                window.location.href = `/quizresult?score=${score}`;  // 리디렉션 URL에 점수를 포함하여 이동
+                //            };
+                //
+                //            if (data.redirect) {
+                //                handleRedirect();  // 서버에서 리디렉션을 지시한 경우 바로 리디렉션 처리
+                //            } else {
+                //                // 서버에서 리디렉션을 지시하지 않은 경우 추가 작업 수행
+                //                console.log(data);
+                //                // 여기에서 추가 작업을 수행할 수 있습니다.
+                //            }
+                //        });
+                //}
+    </script>
+</body>
+
+</html>

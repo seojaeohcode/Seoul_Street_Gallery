@@ -1,0 +1,446 @@
+footer {
+  width: 100%;
+  z-index: 9995;
+  display: flex;
+  justify-content: center;
+  margin: 3vw auto;
+}
+
+#footer-imgbox {
+  width: 30vw;
+}
+
+#footer-sitemap > ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+#footer-teamsite > ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+#footer-sitemap > ul > a > li {
+  margin: 0.5vw 0;
+  color: #555b66;
+}
+
+#footer-teamsite > ul > a > li {
+  margin: 0.5vw 0;
+  color: #555b66;
+  font-family: "Do Hyeon", sans-serif;
+  font-family: "Jua", sans-serif;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+.footer-title {
+  font-size: 1.2vw;
+  font-weight: bold;
+  font-family: "Do Hyeon", sans-serif;
+  font-family: "Jua", sans-serif;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+#footer-teamsite {
+  margin-left: 2.5vw;
+}
+
+#footer-sitemap > ul > a:active,
+#footer-sitemap > ul > a:link,
+#footer-sitemap > ul > a:visited,
+#footer-sitemap > ul > a:hover {
+  text-decoration: none;
+  color: black;
+}
+
+#footer-teamsite > ul > a:active,
+#footer-teamsite > ul > a:link,
+#footer-teamsite > ul > a:visited,
+#footer-teamsite > ul > a:hover {
+  text-decoration: none;
+  color: black;
+}
+
+@media only screen and (max-width: 768px) {
+  footer {
+    margin: 3vw auto;
+  }
+
+  #footer-imgbox {
+    width: 30vw;
+  }
+
+  #footer-imgbox > img {
+    width: 25vw;
+  }
+
+  #footer-sitemap > ul > a > li {
+    margin: 1vw 0;
+    font-size: 1.5vw;
+  }
+
+  #footer-teamsite > ul > a > li {
+    margin: 1vw 0;
+    font-size: 1.5vw;
+  }
+
+  .footer-title {
+    font-size: 2.8vw; /* 수정: 1.2vw -> 3vw */
+  }
+
+  #footer-teamsite {
+    margin-left: 2.5vw;
+  }
+
+  #footer2 {
+    font-size: 1.2vw;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  footer {
+    margin: 3vw auto;
+  }
+
+  #footer-imgbox {
+    width: 25vw;
+  }
+  #footer-imgbox > img {
+    width: 20vw;
+  }
+
+  #footer-sitemap > ul > a > li {
+    margin: 1vw 0;
+  }
+
+  #footer-teamsite > ul > a > li {
+    margin: 1vw 0;
+  }
+
+  .footer-title {
+    font-size: 2vw; /* 수정: 1.2vw -> 2.5vw */
+  }
+
+  #footer-teamsite {
+    margin-left: 2.5vw;
+  }
+
+  #footer2 {
+    font-size: 1.5vw;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  footer {
+    margin: 3vw auto;
+  }
+
+  #footer-imgbox {
+    width: 30vw;
+  }
+
+  #footer-sitemap > ul > a > li {
+    margin: 0.5vw 0;
+  }
+
+  #footer-teamsite > ul > a > li {
+    margin: 0.5vw 0;
+  }
+
+  .footer-title {
+    font-size: 1.2vw; /* 수정: 1.2vw -> 1.8vw */
+  }
+
+  #footer-teamsite {
+    margin-left: 2.5vw;
+  }
+
+  #footer2 {
+    font-size: 1.5vw;
+  }
+}
+
+/* footer > div {
+  display: flex;
+  justify-content: center;
+  color: white;
+  font-family: "EB Garamond", serif;
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+}
+
+footer > div:last-child > svg {
+  margin: 0;
+  padding: 0;
+}
+
+#pinterest {
+  fill: bisque;
+}
+
+#pinterest:hover {
+  fill: red;
+}
+
+#github {
+  fill: bisque;
+}
+
+#github:hover {
+  fill: rgb(125, 125, 255);
+}
+
+@media only screen and (max-width: 768px) {
+  footer {
+    padding: 3vw 0 2vw 0;
+  }
+
+  footer > div {
+    font-size: 3.5vw;
+    margin-bottom: 1vw;
+  }
+
+  #pinterest_svg {
+    width: 6.3vw;
+  }
+
+  #kapok {
+    margin: 1.5vw 3vw;
+    width: 6.3vw;
+  }
+
+  #github_svg {
+    width: 5.8vw;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+  footer {
+    padding: 1.8vw 0;
+  }
+
+  footer > div {
+    font-size: 2vw;
+  }
+
+  #pinterest_svg {
+    width: 4.3vw;
+  }
+
+  #kapok {
+    margin: 1.5vw 3vw;
+    width: 4.3vw;
+  }
+
+  #github_svg {
+    width: 3.8vw;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  footer {
+    padding: 0.5vw 0 0 0;
+  }
+
+  footer > div {
+    font-size: 1.5vw;
+  }
+
+  #pinterest_svg {
+    width: 4vw;
+  }
+
+  #kapok {
+    margin: 1.5vw 3vw;
+    width: 4vw;
+  }
+
+  #github_svg {
+    width: 3.5vw;
+  }
+}
+
+/* footer {
+    background-color: #22263f;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 16px;
+}
+
+footer>div {
+    color: white;
+    font-family: 'EB Garamond', serif;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+}
+
+svg {
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+#pinterest {
+    fill: bisque;
+}
+
+#pinterest:hover {
+    fill: red;
+}
+
+#github {
+    fill: bisque;
+}
+
+#github:hover {
+    fill: rgb(125, 125, 255);
+}
+
+
+@media only screen and (max-width: 768px) {
+    #pinterest_svg {
+        width: 4.3vw;
+    }
+
+    #kapok {
+        margin: 1.5vw 3vw;
+        width: 4.3vw;
+    }
+
+    #github_svg {
+        width: 3.8vw;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+    #pinterest_svg {
+        width: 4.3vw;
+    }
+
+    #kapok {
+        margin: 1.5vw 3vw;
+        width: 4.3vw;
+    }
+
+    #github_svg {
+        width: 3.8vw;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    #pinterest_svg {
+        width: 4.3vw;
+    }
+
+    #kapok {
+        margin: 1.5vw 3vw;
+        width: 4.3vw;
+    }
+
+    #github_svg {
+        width: 3.8vw;
+    }
+} */
+
+/* footer > div {
+  display: flex;
+  justify-content: center;
+  color: white;
+  font-family: "EB Garamond", serif;
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+}
+
+footer > div:last-child > svg {
+  margin: 0;
+  padding: 0;
+}
+
+#pinterest {
+  fill: bisque;
+}
+
+#pinterest:hover {
+  fill: red;
+}
+
+#github {
+  fill: bisque;
+}
+
+#github:hover {
+  fill: rgb(125, 125, 255);
+}
+
+@media only screen and (max-width: 768px) {
+  footer {
+    padding: 3vw 0 2vw 0;
+  }
+
+  footer > div {
+    font-size: 3.5vw;
+    margin-bottom: 1vw;
+  }
+
+  #pinterest_svg {
+    width: 6.3vw;
+  }
+
+  #kapok {
+    margin: 1.5vw 3vw;
+    width: 6.3vw;
+  }
+
+  #github_svg {
+    width: 5.8vw;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+  footer {
+    padding: 1.8vw 0;
+  }
+
+  footer > div {
+    font-size: 2vw;
+  }
+
+  #pinterest_svg {
+    width: 4.3vw;
+  }
+
+  #kapok {
+    margin: 1.5vw 3vw;
+    width: 4.3vw;
+  }
+
+  #github_svg {
+    width: 3.8vw;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  footer {
+    padding: 0.5vw 0 0 0;
+  }
+
+  footer > div {
+    font-size: 1.5vw;
+  }
+
+  #pinterest_svg {
+    width: 4vw;
+  }
+
+  #kapok {
+    margin: 1.5vw 3vw;
+    width: 4vw;
+  }
+
+  #github_svg {
+    width: 3.5vw;
+  }
+} */

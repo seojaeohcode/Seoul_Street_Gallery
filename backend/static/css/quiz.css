@@ -1,0 +1,238 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&family=Noto+Sans+KR&display=swap');
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    background-image: url("../img/smearing-5556288_1920.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+main {
+    width: 70%;
+    margin: 0 auto;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Do Hyeon', sans-serif;
+    font-family: 'Jua', sans-serif;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+#description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.start {
+    margin-top: 6vw;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+    cursor: pointer;
+}
+
+li:hover {
+    font-weight: bold;
+}
+
+.hidden {
+    display: none !important;
+}
+
+h1,
+h2,
+h3 {
+    margin: 0;
+}
+
+h3 {
+    margin-bottom: 0.5vw;
+}
+
+h2 {
+    margin: 2vw 0;
+}
+
+.w-btn-neon2 {
+    position: relative;
+    border: none;
+    min-width: 200px;
+    min-height: 50px;
+    background: linear-gradient(90deg,
+            rgba(129, 230, 217, 1) 0%,
+            rgba(79, 209, 197, 1) 100%);
+    border-radius: 1000px;
+    color: darkslategray;
+    cursor: pointer;
+    box-shadow: 12px 12px 24px rgba(79, 209, 197, 0.64);
+    font-weight: 700;
+    font-size: 1.2vw;
+    transition: 0.3s;
+}
+
+.w-btn-neon2:hover {
+    transform: scale(1.2);
+}
+
+.w-btn-neon2:hover::after {
+    content: "";
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    border: 6px solid #00ffcb;
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: ring 1.5s infinite;
+}
+
+@keyframes ring {
+    0% {
+        width: 30px;
+        height: 30px;
+        opacity: 1;
+    }
+
+    100% {
+        width: 300px;
+        height: 300px;
+        opacity: 0;
+    }
+}
+
+.answer span {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1;
+    height: 100%;
+    margin-left: 0.5vw;
+}
+
+.questimg {
+    display: flex;
+    justify-content: center;
+    width: fit-content;
+    border: 1px solid black;
+    margin: 0 auto;
+}
+
+
+@media only screen and (max-width: 768px) {
+    li {
+        margin-bottom: 1.2vw;
+        margin-left: 1vw;
+    }
+
+    .answer {
+        font-size: 1.6vw;
+    }
+
+    .questtext {
+        font-size: 2vw;
+        margin-bottom: 0;
+    }
+
+    .questimg {
+        margin-top: 2.5vw;
+        margin-bottom: 2vw;
+    }
+
+    .questimg>img {
+        width: 30vw;
+    }
+
+    .w-btn-neon2 {
+        font-size: 4.8vw;
+    }
+
+    h1 {
+        font-size: calc(2/3 * 36px);
+    }
+
+    h2 {
+        font-size: calc(2/3 * 28px);
+    }
+
+    h3 {
+        font-size: calc(2/3 * 22px);
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    li {
+        margin-bottom: 1.2vw;
+        margin-left: 1vw;
+    }
+
+    .answer {
+        font-size: 2vw;
+    }
+
+    .questtext {
+        font-size: 2.8vw;
+        margin-bottom: 0;
+    }
+
+    .questimg {
+        margin-top: 2.5vw;
+        margin-bottom: 2vw;
+        display: flex;
+        justify-content: center;
+    }
+
+    .questimg>img {
+        width: 30vw;
+    }
+
+    .w-btn-neon2 {
+        font-size: 1.8vw;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    li {
+        margin-bottom: 1.2vw;
+        margin-left: 1vw;
+    }
+
+    li:last-child {
+        margin-bottom: 4vw;
+    }
+
+    .answer {
+        font-size: 1.6vw;
+    }
+
+    .questtext {
+        font-size: 2vw;
+        margin-bottom: 0;
+    }
+
+    .questimg {
+        margin-top: 2.5vw;
+        margin-bottom: 2vw;
+        display: flex;
+        justify-content: center;
+    }
+
+    .questimg>img {
+        width: 30vw;
+    }
+}

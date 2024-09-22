@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Street Gallery</title>
+  <link rel="icon" href="../static/img/logo/favicon2.ico">
+  <link rel="stylesheet" href="../static/css/home.css">
+  <link rel="stylesheet" href="../static/css/header.css">
+  <link rel="stylesheet" href="../static/css/footer.css">
+  <link rel="stylesheet" href="../static/css/loader.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.11.0/lottie.min.js"
+    integrity="sha512-XCthc/WzPfa+oa49Z3TI6MUK/zlqd67KwyRL9/R19z6uMqBNuv8iEnJ8FWHUFAjC6srr8w3FMZA91Tfn60T/9Q=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
+  <script src="../static/js/geo.js"></script>
+  <!--css 초기화-->
+  <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">-->
+
+  <!-- SWIPER 외부 라이브러리 연결-->
+  <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+  <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+
+  <!--google material icon 사용
+    class="material-icons"-->
+  <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+    crossorigin="anonymous" />
+  <link rel="stylesheet" type="text/css" href="../static/css/test.css">
+  <link rel="stylesheet" href="../static/css/test.css">
+  <script src="https://kit.fontawesome.com/52a09a9e95.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <!-- <div id="searchload-box" class="loaded searchload">
+    <h1>데이터를 골라내고 있습니다!</h1>
+    <div id="animContainer2">
+
+    </div>
+  </div> -->
+  <div class="loader">
+    <div id="animContainer">
+
+    </div>
+  </div>
+  <header>
+    <ul>
+      <a href="{{ url_for('index') }}" id="logo-container">
+        <li><img src="../static/img/PublicArt.png" alt="" id="logo"></li>
+      </a>
+    </ul>
+    <ul>
+      <a href="{{ url_for('list') }}">
+        <li>작품목록</li>
+      </a>
+      <a href="{{ url_for('quiz') }}">
+        <li>퀴즈</li>
+      </a>
+      <a href="{{ url_for('patch') }}">
+        <li>패치노트</li>
+      </a>
+    </ul>
+    {% if session["nickname"] %}
+    <ul>
+      <a href="{{ url_for('setting') }}">
+        <li>{{session["nickname"]}}</li>
+      </a>
+      <a href="{{ url_for('logout') }}">
+        <li>로그아웃</li>
+      </a>
+    </ul>
+    {% else %}
+    <ul>
+      <a href="{{ url_for('login') }}">
+        <li>로그인</li>
+      </a>
+      <a href="{{ url_for('signup') }}">
+        <li>회원가입</li>
+      </a>
+    </ul>
+    {% endif %}
+  </header>
+  <main>
+    <div class="swiper">
+      <!-- Additional required wrapper -->
+      <div class="swiper-wrapper">
+        <!-- Slides -->
+        <div class="swiper-slide">
+          <video autoplay muted loop id="myVideo">
+            <source src="../static/video/seoul_-_21118 (1440p).mp4" type="video/mp4">
+          </video>
+          <!-- <div class="">
+              
+              <span></span><br>
+              <span></span>
+            </div> -->
+          <div class="centered-text">
+            <div><span>익숙함 속의 새로움</span></div>
+            <div class="roller">
+              <span id="text1">Explore Your SEOUL</span>
+              <span id="text2">스트리트 갤러리</span>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-slide" id="slide1"
+          style="background-image: url('../static/img/slide/서울의미소.jpg'); background-size: cover; background-position: center;"
+          alt="본 저작물은 서울특별시에서 2016년 작성하여 공공누리 제4유형으로 개방한 '서울의 미소(담당부서:디자인정책과)'을 이용하였으며, 해당 저작물은 서울특별시 홈페이지 'https://news.seoul.go.kr/culture/archives/77451?listPage=2'에서 무료로 다운받으실 수 있습니다.">
+          <span>서울의미소</span></div>
+        <div class="swiper-slide" id="slide2"
+          style="background-image: url('../static/img/slide/회귀.jpg'); background-size: cover; background-position: center;"
+          alt="본 저작물은 서울특별시에서 2016년 작성하여 공공누리 제4유형으로 개방한 '회귀(담당부서:디자인정책과)'을 이용하였으며, 해당 저작물은 서울특별시 홈페이지 'https://news.seoul.go.kr/culture/archives/77444?listPage=2'에서 무료로 다운받으실 수 있습니다.">
+          <span>회귀</span></div>
+        <div class="swiper-slide" id="slide3"
+          style="background-image: url('../static/img/slide/마라톤.jpg'); background-size: cover; background-position: center;"
+          alt="본 저작물은 서울특별시에서 2016년 작성하여 공공누리 제4유형으로 개방한 '마라톤(내일을 향하여)(담당부서:디자인정책과)'을 이용하였으며, 해당 저작물은 서울특별시 홈페이지 'https://news.seoul.go.kr/culture/archives/77386?listPage=3'에서 무료로 다운받으실 수 있습니다.">
+          <span>마라톤</span></div>
+      </div>
+      <!-- If we need pagination -->
+      <div class="swiper-pagination"></div>
+
+      <!-- If we need navigation buttons -->
+      <!-- <div class="swiper-button-prev"></div> -->
+      <!-- <div class="swiper-button-next"></div> -->
+
+      <!-- If we need scrollbar -->
+      <div class="swiper-scrollbar"></div>
+    </div>
+
+    <div id="board">
+      <div id="searchbox">
+        <p id="sear-title">
+        <h1>우리집 근처 공공미술을 찾아볼까요?</h1>
+        </p>
+        <!-- around -->
+        <form action="/" method="POST" id="around" name="around">
+          <input type="text" name="address" id="address" autocomplete="off" required readonly>
+          <button type="submit" id="submit"><span style="font-size: 2.3vw;" class="material-symbols-outlined">
+              search
+            </span></button>
+        </form>
+      </div>
+      <p id=search-description>
+      <h1 style="text-align: center;">Haversine 공식으로 <br> 보다 정확하게 거리측정!</h1>
+      <div id="search-description-flex">
+        <img src="../static/img/geo/220px-Law-of-haversines.svg.png" alt="">
+      </div>
+      </p>
+    </div>
+
+    <div id="description">
+      <p class="small-description">
+      <h1>사소한 일상 속 예술을 찾아드립니다</h1>
+      </p>
+      <div class="imgbox">
+        <img src="../static/img/kapok2.png" alt="" id="teamlogo">
+      </div>
+      <div class="container-02">
+        <div class="glassmorphic-card">
+          <div class="imgBox">
+            <i class="fa-solid fa-user"></i>
+          </div>
+          <div class="contentBox">
+            <h3>Who?</h3>
+            <p>
+              Kapok은 굉장히 오래 살며, 성장이 빨라<br>
+              장수하는 선구자로 불립니다.<br>
+              저희도 팀을 오래 유지하고<br>
+              빨리 성장하고자하는 의미에서<br>
+              Kapok이라는 팀명을 지었습니다.
+            </p>
+            <!-- <a href="#"><span>Read More</span></a> -->
+          </div>
+        </div>
+        <div class="glassmorphic-card">
+          <div class="imgBox">
+            <i class="fa-solid fa-briefcase"></i>
+          </div>
+          <div class="contentBox">
+            <h3>What?</h3>
+            <p>
+              나와 가까운 서울시의 공공미술을 찾고<br>
+              여러 미술작품 목록을 볼 수 있으며,<br>
+              댓글로 작품에 대한 의견공유도 가능하고<br>
+              재밌는 테스트, 뉴스레터도 제공합니다.<br>
+            </p>
+            <!-- <a href="#"><span>Read More</span></a> -->
+          </div>
+        </div>
+        <div class="glassmorphic-card">
+          <div class="imgBox">
+            <i class="fa-solid fa-bullseye"></i>
+          </div>
+          <div class="contentBox">
+            <h3>Why?</h3>
+            <p>
+              스트리트 갤러리는<br>
+              서울시의 공공미술 참여를 확대시키는<br>
+              목적을 가지고 만들어졌습니다.<br>
+              많은 참여 부탁드립니다!
+            </p>
+            <!-- <a href="#"><span>Read More</span></a> -->
+          </div>
+        </div>
+      </div>
+      <!-- <div id="description-box">
+        <div id="who">
+          <img src="../static/img/kapok2.png" alt="">
+          <div id="who-descript">
+            <h1>Who We Are?</h1>
+            <p>
+              Kapok은 굉장히 오래 살며, 성장이 빨라<br>
+              장수하는 선구자로 불립니다.<br>
+              저희도 팀을 오래 유지하고<br>
+              빨리 성장하고자하는 의미에서<br>
+              Kapok이라는 팀명을 지었습니다.
+            </p>
+          </div>
+        </div>
+        <div id="what">
+          <div id="who-descript">
+            <h1>What is this site?</h1>
+            <p>
+              나와 가까운 서울시의 공공미술을 찾아주고<br>
+              관심이 더 생긴다면 여러 미술 목록을 볼 수 있으며,<br>
+              댓글로 작품에 대한 의견공유도 가능하고<br>
+              재밌는 테스트와 뉴스레터도 받아보실 수 있습니다.<br>
+            </p>
+          </div>
+        </div>
+        <div id="why">
+          <div id="who-descript">
+            <h1>Why did we create this site?</h1>
+            <p>
+              스트리트 갤러리는<br>
+              서울시의 공공미술 참여를 확대시키는<br>
+              목적을 가지고 만들어졌습니다.<br>
+              많은 참여 부탁드립니다!
+            </p>
+          </div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+
+
+
+    <div id="recommend">
+      <div id="recom-title">
+        <h1>이런 건 어때요?</h1>
+      </div>
+      <div id="content">
+        <a href="{{ url_for('quiz') }}">
+          <div class="contentbox" id="quiz">
+            <h2>공공미술<br>능력고사</h2>
+          </div>
+        </a>
+        <a href="{{ url_for('list') }}">
+          <div class="contentbox" id="artlist">
+            <h2>작품목록</h2>
+          </div>
+        </a>
+        <a href="{{ url_for('patch') }}">
+          <div class="contentbox" id="patch">
+            <h2>개발기록</h2>
+          </div>
+        </a>
+      </div>
+    </div>
+    <!--<div id="geo"></div>
+    <div class="card">
+      <div class="card-text">
+        <span class="date">1991</span> 
+        <h2>Lorem</h2> 
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur hendrerit mauris a massa elementum, quis vulputate augue imperdiet.</p>
+      </div>
+      작품위치 or detail이동버튼 or 좋아요,댓글,방문사진 넣으러가기
+      <div class="card-button">
+        <button>Go Detail</button>
+      </div>
+      <div class="card-stats">
+        <div class="stat">
+          <div class="value">4m</div>
+          <div class="type">read</div>
+        </div>
+      </div>
+      <div class="card-stats">
+        <div class="stat">
+          <div class="value">5123</div>
+          <div class="type">views</div>
+        </div>
+      </div>
+      <div class="card-stats">
+        <div class="stat">
+          <div class="value">32</div>
+          <div class="type">comments</div>
+        </div>
+      </div>
+    </div>-->
+  </main>
+  <div id="footer2" style="background-color: #f0f6f8; text-align: center; ">
+    <div style="width: 90%; margin: 0 auto;">
+      <p style="color: #5c818a;">저희 Kapok Team은 꾸준한 발전을 추구합니다.</p>
+      <p style="color: #5c818a;">만약 필요한 개선사항이나 의견이 있다면 <span
+          style="text-decoration: underline;">seocode0@gmail.com</span>으로 문의 주세요.</p>
+    </div>
+  </div>
+  <footer>
+    <div id="footer-imgbox">
+      <img src="../static/img/PublicArt.png" alt="">
+    </div>
+    <div id="footer-sitemap">
+      <div class="footer-title">사이트맵</div>
+      <ul>
+        <a href="{{ url_for('index') }}">
+          <li>메인 (가까운 작품 검색)</li>
+        </a>
+        <a href="{{ url_for('list') }}">
+          <li>작품 목록 (전체 작품 리스트)</li>
+        </a>
+        <a href="{{ url_for('quiz') }}">
+          <li>공공미술 능력고사</li>
+        </a>
+        <a href="{{ url_for('patch') }}">
+          <li>패치노트</li>
+        </a>
+        <a href="{{ url_for('login') }}">
+          <li>로그인</li>
+        </a>
+        <a href="{{ url_for('signup') }}">
+          <li>회원가입</li>
+        </a>
+      </ul>
+    </div>
+    <div id="footer-teamsite">
+      <div class="footer-title">팀 사이트</div>
+      <ul>
+        <a href="https://github.com/KapokTeam/project-seoul">
+          <li>팀 깃허브</li>
+        </a>
+        <a href="https://github.com/seojaeohcode">
+          <li>개발자 깃허브</li>
+        </a>
+        <a href="https://www.pixiv.net/users/43918969">
+          <li>디자이너 픽시브</li>
+        </a>
+      </ul>
+    </div>
+    <!-- <div>Follow US</div>
+    <div>
+      <svg id="pinterest_svg" enable-background="new 0 0 56.693 56.693" id="Layer_1" version="1.1"
+        viewBox="0 0 56.693 56.693" width="56.693px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink">
+        <g>
+          <path id="pinterest"
+            d="M28.348,5.158c-13.599,0-24.625,11.023-24.625,24.625c0,10.082,6.063,18.744,14.739,22.553   c-0.069-1.721-0.012-3.783,0.429-5.654c0.473-2,3.168-13.418,3.168-13.418s-0.787-1.572-0.787-3.896   c0-3.648,2.115-6.373,4.749-6.373c2.24,0,3.322,1.682,3.322,3.695c0,2.252-1.437,5.619-2.175,8.738   c-0.616,2.613,1.31,4.744,3.887,4.744c4.665,0,7.808-5.992,7.808-13.092c0-5.397-3.635-9.437-10.246-9.437   c-7.47,0-12.123,5.57-12.123,11.792c0,2.146,0.633,3.658,1.624,4.83c0.455,0.537,0.519,0.754,0.354,1.371   c-0.118,0.453-0.389,1.545-0.501,1.977c-0.164,0.625-0.669,0.848-1.233,0.617c-3.44-1.404-5.043-5.172-5.043-9.408   c0-6.994,5.899-15.382,17.599-15.382c9.4,0,15.588,6.804,15.588,14.107c0,9.658-5.369,16.875-13.285,16.875   c-2.659,0-5.16-1.438-6.016-3.068c0,0-1.43,5.674-1.732,6.768c-0.522,1.9-1.545,3.797-2.479,5.275   c2.215,0.654,4.554,1.01,6.979,1.01c13.598,0,24.623-11.023,24.623-24.623C52.971,16.181,41.945,5.158,28.348,5.158z" />
+        </g>
+      </svg>
+      <img src="../static/img/footer_logo/1-removebg-preview.png" alt="" id="kapok">
+      <svg id="github_svg" enable-background="new 0 0 32 32" id="Layer_1" version="1.0" viewBox="0 0 32 32" width="32px"
+        xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <path clip-rule="evenodd" id="github"
+          d="M16.003,0C7.17,0,0.008,7.162,0.008,15.997  c0,7.067,4.582,13.063,10.94,15.179c0.8,0.146,1.052-0.328,1.052-0.752c0-0.38,0.008-1.442,0-2.777  c-4.449,0.967-5.371-2.107-5.371-2.107c-0.727-1.848-1.775-2.34-1.775-2.34c-1.452-0.992,0.109-0.973,0.109-0.973  c1.605,0.113,2.451,1.649,2.451,1.649c1.427,2.443,3.743,1.737,4.654,1.329c0.146-1.034,0.56-1.739,1.017-2.139  c-3.552-0.404-7.286-1.776-7.286-7.906c0-1.747,0.623-3.174,1.646-4.292C7.28,10.464,6.73,8.837,7.602,6.634  c0,0,1.343-0.43,4.398,1.641c1.276-0.355,2.645-0.532,4.005-0.538c1.359,0.006,2.727,0.183,4.005,0.538  c3.055-2.07,4.396-1.641,4.396-1.641c0.872,2.203,0.323,3.83,0.159,4.234c1.023,1.118,1.644,2.545,1.644,4.292  c0,6.146-3.74,7.498-7.304,7.893C19.479,23.548,20,24.508,20,26c0,2,0,3.902,0,4.428c0,0.428,0.258,0.901,1.07,0.746  C27.422,29.055,32,23.062,32,15.997C32,7.162,24.838,0,16.003,0z"
+          fill="#181616" fill-rule="evenodd" />
+        <g />
+        <g />
+        <g />
+        <g />
+        <g />
+        <g />
+      </svg>
+    </div> -->
+  </footer>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js'></script>
+  <script src="../static/js/script.js"></script>
+
+  <script>
+    var lottieAnim = lottie.loadAnimation({
+      container: document.getElementById("animContainer"), // the dom element that will contain the animation
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: 'https://assets6.lottiefiles.com/temp/lf20_92d2Bu.json' // the path to the animation json
+    });
+  </script>
+
+  <script>
+    // window.addEventListener("load", function () {
+    //   document.querySelector(".loader").className = 'loaded';
+    // });
+  </script>
+
+  <script>
+    var lottieAnim = lottie.loadAnimation({
+      container: document.getElementById("animContainer2"), // the dom element that will contain the animation
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: 'https://assets7.lottiefiles.com/packages/lf20_x17ybolp.json' // the path to the animation json
+    });
+  </script>
+
+  <script>
+    window.addEventListener("load", function () {
+      document.querySelector(".loader").className = 'loaded';
+    });
+  </script>
+
+  <script>
+    new Swiper('.swiper', {
+      autoplay: {
+        delay: 20000
+      },
+      loop: true,
+      slidesPerView: 1,
+      spaceBetween: 0,
+      centeredSlides: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true
+      },
+      navigation: {
+        prevEl: '.swiper-button-prev',
+        nextEl: '.swiper-button-next'
+      }
+    })
+  </script>
+
+  <!-- <script>
+    const rollingBox = document.getElementById('rolling_box');
+    const firstCard = document.getElementById('first');
+    const secondCard = document.getElementById('second');
+
+    // 첫 번째 카드를 맨 아래로 이동
+    rollingBox.appendChild(firstCard);
+
+    // 롤링 배너가 끝나면 카드 위치를 조정
+    rollingBox.addEventListener('animationiteration', () => {
+      if (firstCard.classList.contains('card_sliding')) {
+        // 첫 번째 카드가 보이는 경우
+        firstCard.classList.remove('card_sliding');
+        secondCard.classList.add('card_sliding');
+      } else {
+        // 두 번째 카드가 보이는 경우
+        firstCard.classList.add('card_sliding');
+        secondCard.classList.remove('card_sliding');
+      }
+    });
+  </script> -->
+
+  <script>
+    // 변수 => 지도 발생하면 더 안열리게 + 검색 prevent 로직그림이랑 서비스 아키텍쳐 ERD 3가지 그림이 포함이 필요할 듯
+    // let addressInput = document.getElementById("address");
+    // let isAddressOpen = false;
+    // let button = document.getElementById('submit');
+
+    // addressInput.addEventListener("click", function () {
+    //   if (!isAddressOpen) {
+    //     isAddressOpen = true;
+    //     new daum.Postcode({
+    //       oncomplete: function (data) {
+    //         if (data.jibunAddress) {
+    //           addressInput.value = data.jibunAddress;
+    //         } else if (data.autoJibunAddress) {
+    //           addressInput.value = data.autoJibunAddress;
+    //         } else {
+    //           // Handle case when both jibunAddress and autoJibunAddress are empty
+    //           // You can display an error message or handle it in any other way
+    //         }
+
+    //         isAddressOpen = false;
+    //       },
+    //     }).open();
+    //   }
+    // });
+
+    // button.onclick = function () {
+    //   document.querySelector(".searchload").className = 'searchload loader';
+    // };
+
+    // if (aopen == false) {
+    //   aopen = true
+    //   document.getElementById("address").addEventListener("click", function () { //주소입력칸을 클릭하면
+    //     //카카오 지도 발생
+    //     new daum.Postcode({
+    //       oncomplete: function (data) { //선택시 입력값 세팅
+    //         console.log(data)
+    //         document.getElementById("address").value = data.autoJibunAddress; // 주소 넣기
+    //         aopen = false
+    //       }
+    //     }).open();
+    //   });
+    // }
+
+    //const form = document.querySelector("form#around");
+    //form.addEventListener("submit", async function (event) {
+    //  if(aopen == true){
+    //    event.preventDefault(); // 기존의 제출 이벤트를 취소합니다.
+    //  }else{
+    //    this.submit();
+    //  }
+    //});
+  </script>
+  <!--<script>
+    fetch('/around')
+      .then(response => response.text())
+      .then(data => {
+        document.querySelector('#geo').textContent = data;
+      });
+  </script>-->
+
+  <!--<script>
+    fetch('/fire')
+      .then(response => response.text())
+      .then(data => {
+        document.querySelector('#geo').textContent = data;
+      });
+  </script>-->
+</body>
+
+</html>

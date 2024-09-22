@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Street Gallery</title>
+    <link rel="icon" href="../static/img/logo/favicon2.ico">
+    <link rel="stylesheet" href="../static/css/header.css">
+    <link rel="stylesheet" href="../static/css/footer.css">
+    <link rel="stylesheet" href="../static/css/loader.css">
+    <link rel="stylesheet" href="../static/css/detail.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.11.0/lottie.min.js"
+        integrity="sha512-XCthc/WzPfa+oa49Z3TI6MUK/zlqd67KwyRL9/R19z6uMqBNuv8iEnJ8FWHUFAjC6srr8w3FMZA91Tfn60T/9Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!--google material icon 사용
+        class="material-icons"-->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+
+<body>
+    <div class="loader">
+        <div id="animContainer">
+
+        </div>
+    </div>
+    <header>
+        <ul>
+            <a href="{{ url_for('index') }}" id="logo-container">
+                <li><img src="../static/img/PublicArt.png" alt="" id="logo"></li>
+            </a>
+        </ul>
+        <ul>
+            <a href="{{ url_for('list') }}">
+                <li>작품목록</li>
+            </a>
+            <a href="{{ url_for('quiz') }}">
+                <li>퀴즈</li>
+            </a>
+            <a href="{{ url_for('patch') }}">
+                <li>패치노트</li>
+            </a>
+        </ul>
+        {% if session["nickname"] %}
+        <ul>
+            <a href="{{ url_for('setting') }}">
+                <li>{{session["nickname"]}}</li>
+            </a>
+            <a href="{{ url_for('logout') }}">
+                <li>로그아웃</li>
+            </a>
+        </ul>
+        {% else %}
+        <ul>
+            <a href="{{ url_for('login') }}">
+                <li>로그인</li>
+            </a>
+            <a href="{{ url_for('signup') }}">
+                <li>회원가입</li>
+            </a>
+        </ul>
+        {% endif %}
+    </header>
+    <main>
+        {% if not session['id'] %}
+        <div class="blur">
+            <div id="popup-box">
+                <a href="{{ url_for('login') }}">
+                    <div id="goto-login">
+                        <span style="font-size: 3vw;" class="material-symbols-outlined">login</span>
+                        <span>로그인 하러가기</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        {% endif %}
+        <!-- {% for item in piece %} -->
+        <div class="card">
+            <h1>{{ piece[0]['name'] }}</h1>
+        </div>
+        <div class="description">
+            <div class="title">
+                <h2>작품설명</h2>
+            </div>
+            <h3>■ 작품명: {{ piece[0]['name'] }}</h3>
+            <h3>■ 설치연도: {{ piece[0]['year'] }}</h3>
+            <h3>■ 주소: {{ piece[0]['address'] }}</h3>
+            {% if piece[0]['description'] != 'none' %}
+            <h3>■ 작품설명: {{ piece[0]['description'] }}</h3>
+            {% else %}
+            <h3>■ 작품설명: X</h3>
+            {% endif %}
+        </div>
+        {% if piece[0]['lat'] and piece[0]['lng'] %}
+        <div class="map-title">
+            <h2>지도</h2>
+        </div>
+        <div class="map-container" id="map" data-lat="{{ piece[0]['lat'] }}" data-lng="{{ piece[0]['lng'] }}"
+            style="width:100%;height:350px;"></div>
+        {% endif %}
+        <div id="comment-container">
+            <div style="text-align: center;">
+                <h2>작품에 대한 의견을 들려주세요!</h2>
+            </div>
+            <div id="comment-all">
+                <div id="total">
+                    <h3>댓글 {{ total }}개</h3>
+                </div>
+                <div id="comment-box">
+                    <h2>댓글쓰기</h2>
+                    <form action="/comment" method="POST" id="comment" name="comment">
+                        <input type="hidden" name="name" value="{{ piece[0]['name'] }}">
+                        <input type="hidden" name="person" value="{{ session['id'] }}">
+                        <textarea name="comment_content" id="comment_content" placeholder="어떤 의견을 남기시겠어요?"
+                            required></textarea><br>
+                        <button type="submit" id="submit">등록</button>
+                    </form>
+                </div>
+                {% for data in comment %}
+                <div class="comment-list">
+                    <div class="comment-list-box">
+                        <p class="author">{{ data['nickname'] }}</p>
+                        <p class="time">{{ data['formatted_time'] }}</p>
+                        <p class="content">{{ data['content'] }}</p>
+                        {% if session["id"] == data['person'] %}
+                        <div class="button-container">
+                            <button class="delete" data-person="{{ data['person'] }}" data-time="{{ data['time'] }}"
+                                data-piece="{{ data['piece'] }}">삭제</button>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- {% endfor %} -->
+    </main>
+    <div id="footer2" style="background-color: #f0f6f8; text-align: center; ">
+        <div style="width: 90%; margin: 0 auto;">
+            <p style="color: #5c818a;">저희 Kapok Team은 꾸준한 발전을 추구합니다.</p>
+            <p style="color: #5c818a;">만약 필요한 개선사항이나 의견이 있다면 <span
+                    style="text-decoration: underline;">seocode0@gmail.com</span>으로 문의 주세요.</p>
+        </div>
+    </div>
+    <footer>
+        <div id="footer-imgbox">
+            <img src="../static/img/PublicArt.png" alt="">
+        </div>
+        <div id="footer-sitemap">
+            <div class="footer-title">사이트맵</div>
+            <ul>
+                <a href="{{ url_for('index') }}">
+                    <li>메인 (가까운 작품 검색)</li>
+                </a>
+                <a href="{{ url_for('list') }}">
+                    <li>작품 목록 (전체 작품 리스트)</li>
+                </a>
+                <a href="{{ url_for('quiz') }}">
+                    <li>공공미술 능력고사</li>
+                </a>
+                <a href="{{ url_for('patch') }}">
+                    <li>패치노트</li>
+                </a>
+                <a href="{{ url_for('login') }}">
+                    <li>로그인</li>
+                </a>
+                <a href="{{ url_for('signup') }}">
+                    <li>회원가입</li>
+                </a>
+            </ul>
+        </div>
+        <div id="footer-teamsite">
+            <div class="footer-title">팀 사이트</div>
+            <ul>
+                <a href="https://github.com/KapokTeam/project-seoul">
+                    <li>팀 깃허브</li>
+                </a>
+                <a href="https://github.com/seojaeohcode">
+                    <li>개발자 깃허브</li>
+                </a>
+                <a href="https://www.pixiv.net/users/43918969">
+                    <li>디자이너 픽시브</li>
+                </a>
+            </ul>
+        </div>
+        <!-- <div>Follow US</div>
+        <div>
+          <svg id="pinterest_svg" enable-background="new 0 0 56.693 56.693" id="Layer_1" version="1.1"
+            viewBox="0 0 56.693 56.693" width="56.693px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink">
+            <g>
+              <path id="pinterest"
+                d="M28.348,5.158c-13.599,0-24.625,11.023-24.625,24.625c0,10.082,6.063,18.744,14.739,22.553   c-0.069-1.721-0.012-3.783,0.429-5.654c0.473-2,3.168-13.418,3.168-13.418s-0.787-1.572-0.787-3.896   c0-3.648,2.115-6.373,4.749-6.373c2.24,0,3.322,1.682,3.322,3.695c0,2.252-1.437,5.619-2.175,8.738   c-0.616,2.613,1.31,4.744,3.887,4.744c4.665,0,7.808-5.992,7.808-13.092c0-5.397-3.635-9.437-10.246-9.437   c-7.47,0-12.123,5.57-12.123,11.792c0,2.146,0.633,3.658,1.624,4.83c0.455,0.537,0.519,0.754,0.354,1.371   c-0.118,0.453-0.389,1.545-0.501,1.977c-0.164,0.625-0.669,0.848-1.233,0.617c-3.44-1.404-5.043-5.172-5.043-9.408   c0-6.994,5.899-15.382,17.599-15.382c9.4,0,15.588,6.804,15.588,14.107c0,9.658-5.369,16.875-13.285,16.875   c-2.659,0-5.16-1.438-6.016-3.068c0,0-1.43,5.674-1.732,6.768c-0.522,1.9-1.545,3.797-2.479,5.275   c2.215,0.654,4.554,1.01,6.979,1.01c13.598,0,24.623-11.023,24.623-24.623C52.971,16.181,41.945,5.158,28.348,5.158z" />
+            </g>
+          </svg>
+          <img src="../static/img/footer_logo/1-removebg-preview.png" alt="" id="kapok">
+          <svg id="github_svg" enable-background="new 0 0 32 32" id="Layer_1" version="1.0" viewBox="0 0 32 32" width="32px"
+            xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <path clip-rule="evenodd" id="github"
+              d="M16.003,0C7.17,0,0.008,7.162,0.008,15.997  c0,7.067,4.582,13.063,10.94,15.179c0.8,0.146,1.052-0.328,1.052-0.752c0-0.38,0.008-1.442,0-2.777  c-4.449,0.967-5.371-2.107-5.371-2.107c-0.727-1.848-1.775-2.34-1.775-2.34c-1.452-0.992,0.109-0.973,0.109-0.973  c1.605,0.113,2.451,1.649,2.451,1.649c1.427,2.443,3.743,1.737,4.654,1.329c0.146-1.034,0.56-1.739,1.017-2.139  c-3.552-0.404-7.286-1.776-7.286-7.906c0-1.747,0.623-3.174,1.646-4.292C7.28,10.464,6.73,8.837,7.602,6.634  c0,0,1.343-0.43,4.398,1.641c1.276-0.355,2.645-0.532,4.005-0.538c1.359,0.006,2.727,0.183,4.005,0.538  c3.055-2.07,4.396-1.641,4.396-1.641c0.872,2.203,0.323,3.83,0.159,4.234c1.023,1.118,1.644,2.545,1.644,4.292  c0,6.146-3.74,7.498-7.304,7.893C19.479,23.548,20,24.508,20,26c0,2,0,3.902,0,4.428c0,0.428,0.258,0.901,1.07,0.746  C27.422,29.055,32,23.062,32,15.997C32,7.162,24.838,0,16.003,0z"
+              fill="#181616" fill-rule="evenodd" />
+            <g />
+            <g />
+            <g />
+            <g />
+            <g />
+            <g />
+          </svg>
+        </div> -->
+    </footer>
+    <script type="text/javascript"
+        src=></script>
+    <script>
+        var mapBox = document.querySelector('.map-container');
+        var lat = mapBox.getAttribute('data-lat');
+        var lng = mapBox.getAttribute('data-lng');
+
+        if (lat != 'None' && lng != 'None') {
+            var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+                mapOption = {
+                    center: new kakao.maps.LatLng(lat, lng), // 지도의 중심좌표
+                    level: 3 // 지도의 확대 레벨
+                };
+
+            var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+            // 마커가 표시될 위치입니다 
+            var markerPosition = new kakao.maps.LatLng(lat, lng);
+
+            // 마커를 생성합니다
+            var marker = new kakao.maps.Marker({
+                position: markerPosition
+            });
+
+            // 마커가 지도 위에 표시되도록 설정합니다
+            marker.setMap(map);
+
+            // 아래 코드는 지도 위의 마커를 제거하는 코드입니다
+            // marker.setMap(null);
+        }    
+    </script>
+    <script>
+        let sessionId = 'None'
+
+        document.getElementById("submit").onclick = function () {
+            fetch('/get-sesstion')
+                .then(response => response.text())
+                .then(data => {
+                    sessionId = String(data)
+                })
+                .then(data => {
+                    if (!sessionId || sessionId == 'None') {
+                        alert('세션이 만료되었습니다. 다시 로그인해주세요!');
+                        window.location.href = '/login';
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                });
+        }
+
+        const deleteButtons = document.querySelectorAll('.delete');
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                // 클릭된 댓글의 고유 식별자를 가져옵니다.
+                let person = button.getAttribute('data-person'); // data-person 값 가져오기
+                let time = button.getAttribute('data-time'); // data-time 값 가져오기
+                let piece = button.getAttribute('data-piece'); // data-comment-id 값 가져오기
+
+                // 특정 라우터로 fetch 요청을 보냅니다.
+                fetch('/delete-comment', {
+                    method: 'POST',
+                    body: JSON.stringify({ person, time, piece }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            // Fetch successful
+                            window.location.reload(); // Refresh the page
+                        } else {
+                            throw new Error('Error: ' + response.status);
+                        }
+                    })
+                    .catch(error => {
+                        // 에러 처리
+                    });
+            });
+        });
+    </script>
+    <script>
+        var lottieAnim = lottie.loadAnimation({
+            container: document.getElementById("animContainer"), // the dom element that will contain the animation
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: 'https://assets6.lottiefiles.com/temp/lf20_92d2Bu.json' // the path to the animation json
+        });
+    </script>
+
+    <script>
+        window.addEventListener("load", function () {
+            document.querySelector(".loader").className = 'loaded';
+        });
+    </script>
+</body>
+
+</html>

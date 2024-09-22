@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Street Gallery</title>
+  <link rel="icon" href="../static/img/logo/favicon2.ico">
+  <link rel="stylesheet" href="../static/css/header.css">
+  <link rel="stylesheet" href="../static/css/footer.css">
+  <link rel="stylesheet" href="../static/css/loader.css">
+  <link rel="stylesheet" href="../static/css/signup.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.11.0/lottie.min.js"
+    integrity="sha512-XCthc/WzPfa+oa49Z3TI6MUK/zlqd67KwyRL9/R19z6uMqBNuv8iEnJ8FWHUFAjC6srr8w3FMZA91Tfn60T/9Q=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+  <div class="loader">
+    <div id="animContainer">
+
+    </div>
+  </div>
+  <header>
+    <ul>
+      <a href="{{ url_for('index') }}" id="logo-container">
+        <li><img src="../static/img/PublicArt.png" alt="" id="logo"></li>
+      </a>
+    </ul>
+    <ul>
+      <a href="{{ url_for('list') }}">
+        <li>작품목록</li>
+      </a>
+      <a href="{{ url_for('quiz') }}">
+        <li>퀴즈</li>
+      </a>
+      <a href="{{ url_for('patch') }}">
+        <li>패치노트</li>
+      </a>
+    </ul>
+    {% if session["nickname"] %}
+    <ul>
+      <a href="{{ url_for('setting') }}">
+        <li>{{session["nickname"]}}</li>
+      </a>
+      <a href="{{ url_for('logout') }}">
+        <li>로그아웃</li>
+      </a>
+    </ul>
+    {% else %}
+    <ul>
+      <a href="{{ url_for('login') }}">
+        <li>로그인</li>
+      </a>
+      <a href="{{ url_for('signup') }}">
+        <li>회원가입</li>
+      </a>
+    </ul>
+    {% endif %}
+  </header>
+  <main>
+    <h1>Sign Up</h1>
+    <form id="SignUp" action="/member" method="post" name="SignUp">
+      <div class="int-area">
+        <div class="input-container">
+          <input type="text" name="id" id="id" autocomplete="off" required>
+          <label for="id" id="input-label-id" class="label">ID</label>
+        </div>
+        <button type="button" id="idcheckbtn">중복체크</button>
+      </div>
+      <div class="condition">
+      <p>
+        <span>빈 값X,</span> 
+        <span>8~15자 이내,</span> 
+        <span>영어랑 숫자만 써주세요</span> 
+      </p>
+      <p>
+        <span>중복체크 버튼을 눌러주세요</span>
+        <span>중복 아이디 불가</span>
+      </p>
+      </div>
+      <div class="int-area">
+        <input type="password" name="password" id="password" autocomplete="off" required>
+        <label for="password" id="input-label-password" class="label" class="label">Password</label>
+      </div>
+      <div class="condition">
+        <p>
+          <span>비밀번호는 8~15자 사이입니다</span> 
+        </p>
+        <p>
+          <span>한글은 제외해주세요</span>
+        </p>
+      </div>
+      <div class="int-area">
+        <input type="password" name="password_confirm" id="password_confirm" autocomplete="off" required>
+        <label for="password_confirm" id="input-label-password-confirm" class="label">Password Confirm</label>
+      </div>
+      <div class="condition"><p><span>비밀번호를 한 번 더 입력해주세요.</span></p></div>
+      <!-- <div class="int-area">
+        <input type="text" name="nickname" id="nickname">
+        <label for="nickname">Nickname</label>
+      </div> -->
+      <div class="int-area">
+        <input type="text" name="nickname" id="nickname" autocomplete="off">
+        <label for="nickname" id="input-label-nickname" class="label">Nickname</label>
+      </div>
+      <div class="condition"><p><span>닉네임은 15자 이하입니다.</span></p></div>
+      <div class="int-area">
+        <input type="email" name="email" id="email" autocomplete="off">
+        <label for="email" id="input-label-email" class="label">Email</label>
+      </div>
+      <div class="condition">
+        <p>
+          <span>이메일은 40자 이하입니다</span>
+        </p>
+        <p>
+          <span>올바른 이메일 형식을 입력해주세요.</span>
+        </p>
+      </div>
+      <div class="btn-area">
+        <button type="submit" id="mem">회원가입</button>
+      </div>
+
+      <!--<input type="button" id="submit" value="Submit form">-->
+    </form>
+  </main>
+  <script>
+    var lottieAnim = lottie.loadAnimation({
+      container: document.getElementById("animContainer"), // the dom element that will contain the animation
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: 'https://assets6.lottiefiles.com/temp/lf20_92d2Bu.json' // the path to the animation json
+    });
+  </script>
+
+  <script>
+    window.addEventListener("load", function () {
+      document.querySelector(".loader").className = 'loaded';
+    });
+  </script>
+
+  <script>
+    let urlParams = new URLSearchParams(window.location.search);
+    let alertdata = urlParams.get('alertdata');
+    if (alertdata == 'true' || alertdata == 'True') {
+      alert("회원가입에 실패했습니다.")
+      //urlParams.delete('alertdata');
+      const urlWithoutParams = window.location.href.split('?')[0];
+      window.history.replaceState({}, document.title, urlWithoutParams);
+    }
+  </script>
+
+  <script>
+    let form = document.SignUp;
+    let id = document.getElementById("id")
+    let password = document.getElementById("password")
+    let password_confirm = document.getElementById("password_confirm")
+    let email = document.getElementById("email")
+    let nickname = document.getElementById("nickname")
+    const hangeul = /[ㄱ-ㅎㅏ-ㅣ가-힣]/g;
+    const alphabet = /^[a-zA-Z]+$/;
+    const specialCharRegex = /[^a-zA-Z0-9!@#$%^&*(),.?":{}|<>]/;
+    const emailRegex = /^[\w.-]+@[a-zA-Z_-]+?\.[a-zA-Z]{2,3}$/;
+    const alphanumericRegex = /^[a-zA-Z0-9]+$/;
+    let idExist = true
+
+    let labelId = document.getElementById("input-label-id");
+    let labelPassword = document.getElementById("input-label-password");
+    let labelPasswordConfirm = document.getElementById("input-label-password-confirm");
+    let labelNickname = document.getElementById("input-label-nickname");
+    let labelEmail = document.getElementById("input-label-email");
+
+    id.addEventListener("input", function () {
+        id.setCustomValidity("");
+        toggleInputLabel(id, labelId);
+        idExist = true;
+      });
+
+      password.addEventListener("input", function () {
+        password.setCustomValidity("");
+        toggleInputLabel(password, labelPassword);
+      });
+
+      password_confirm.addEventListener("input", function () {
+        password_confirm.setCustomValidity("");
+        toggleInputLabel(password_confirm, labelPasswordConfirm);
+      });
+
+      nickname.addEventListener("input", function () {
+        nickname.setCustomValidity("");
+        toggleInputLabel(nickname, labelNickname);
+      });
+
+      email.addEventListener("input", function () {
+        email.setCustomValidity("");
+        toggleInputLabel(email, labelEmail);
+      });
+
+    function toggleInputLabel(input, label) {
+        if (input.value.trim() !== "") {
+          label.classList.add("input-focused");
+        } else {
+          label.classList.remove("input-focused");
+        }
+      }
+
+      document.querySelectorAll("input").forEach((input) => {
+        input.addEventListener("input", function () {
+          this.value = this.value.replace(/\s/g, ""); // 띄어쓰기 제거
+        });
+      });
+
+      // id.addEventListener("blur", e => {
+
+      // });
+
+      document.getElementById("idcheckbtn").onclick = function () {
+        id.setCustomValidity("");
+        if (id.value.trim() !== "") {
+          if (id.value.length >= 8 && id.value.length <= 15) {
+              if (alphanumericRegex.test(id.value)) {
+                const data = { id: id.value };
+
+                fetch('/checkid', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(data)
+                })
+                  .then(response => response.text())
+                  .then(data => {
+                    if (data == 'true' || data == 'True') {
+                      idExist = true
+                      id.setCustomValidity("중복되는 아이디가 있습니다.");
+                      id.reportValidity();
+                    } else {
+                      idExist = false
+                      id.setCustomValidity("사용가능한 아이디입니다");
+                      id.reportValidity();
+                    }
+                  })
+                  .catch(error => console.error(error));
+              }
+              else {
+                alert('다른 규칙을 먼저 준수해주세요')
+                id.setCustomValidity("영어랑 숫자만 써주세요");
+                id.reportValidity();
+
+                return false;
+              }
+            }
+          else {
+            alert('다른 규칙을 먼저 준수해주세요')
+            id.setCustomValidity("아이디는 8 ~ 15자 사이입니다.");
+            id.reportValidity();
+
+            return false;
+          }
+        } else {
+          alert('다른 규칙을 먼저 준수해주세요')
+          id.setCustomValidity("아이디를 넣어주세요");
+          id.reportValidity();
+
+          return false;
+        }
+      }
+
+      // 회원가입 버튼을 눌렀을 때.
+      // 빈 값, null값, 길이, 한글, DB 중복
+      document.getElementById("mem").onclick = function () {
+        id.setCustomValidity("");
+        password.setCustomValidity("");
+        password_confirm.setCustomValidity("");
+        nickname.setCustomValidity("");
+        email.setCustomValidity("");
+
+        // 빈 값 체크
+        if (id.value.trim() === "") {
+          id.setCustomValidity("아이디를 넣어주세요");
+          id.reportValidity();
+
+          return false;
+        } else if (id.value.replace(" ", "").length < 8 || id.value.replace(" ", "").length > 15) {
+          id.setCustomValidity("아이디는 8 ~ 15자 사이입니다.");
+          id.reportValidity();
+
+          return false;
+        } else if (!alphanumericRegex.test(input.value)) {
+          id.setCustomValidity("영어랑 숫자만 써주세요.");
+          id.reportValidity();
+
+          return false;
+        } else if (idExist === true) {
+          id.setCustomValidity("중복체크 버튼을 눌러주세요");
+          id.reportValidity();
+
+          return false;
+        } else if (password.value.trim() === "") {
+          password.setCustomValidity("비밀번호를 넣어주세요");
+          password.reportValidity();
+
+          return false;
+        } else if (password.value.replace(" ", "").length < 8 || password.value.replace(" ", "").length > 15) {
+          password.setCustomValidity("비밀번호는 8 ~ 15자 사이입니다.");
+          password.reportValidity();
+
+          return false;
+        } else if (hangeul.test(password.value)) {
+          password.setCustomValidity("한글은 제외해주세요.");
+          password.reportValidity();
+
+          return false;
+        } else if (password_confirm.value.trim() === "") {
+          password_confirm.setCustomValidity("비밀번호를 한 번 더 넣어주세요");
+          password_confirm.reportValidity();
+
+          return false;
+        } else if (password.value !== password_confirm.value) {
+          password_confirm.setCustomValidity("비밀번호가 일치하지 않습니다.");
+          password_confirm.reportValidity();
+
+          return false;
+        } else if (nickname.value.replace(" ", "").length > 15) {
+          nickname.setCustomValidity("닉네임은 15자 이하입니다.");
+          nickname.reportValidity();
+
+          return false;
+        } else if (email.value.replace(" ", "").length > 40) {
+          email.setCustomValidity("이메일은 40자 이하입니다.");
+          email.reportValidity();
+
+          return false;
+        } else if (email.value.trim() !== "" && !emailRegex.test(email.value)) {
+          email.setCustomValidity("올바른 이메일 형식을 입력해주세요.");
+          email.reportValidity();
+
+          return false;
+        } else {
+          return true;
+        }
+      };
+
+    // document.getElementById("password").addEventListener("blur", e => {
+    //  const data = { pw: password.value };
+    
+    //  fetch('/checkpw', {
+    //    method: 'POST',
+    //    headers: {
+    //      'Content-Type': 'application/json'
+    //    },
+    //    body: JSON.stringify(data)
+    //  })
+    //    .then(response => response.text())
+    //    .then(data => {
+    //      if (data == 'true' || data == 'True') {
+    //        pwExist = true
+    //      } else {
+    //        pwExist = false
+    //      }
+    //    })
+    //    .catch(error => console.error(error));
+    // });
+  </script>
+    <script>
+    // const form = document.querySelector("form#SignUp");
+    // console.log(form)
+    // const id = document.getElementById("id");
+    // const password = document.getElementById("password");
+    // const passwordConfirm = document.getElementById("password_confirm");
+    // const nickname = document.getElementById("nickname");
+    // const email = document.getElementById("email");
+
+    // const hangeul = /[ㄱ-ㅎㅏ-ㅣ가-힣]/g;
+    // const alphabet = /^[a-zA-Z]+$/;
+
+    // let labelId = document.getElementById("input-label-id");
+    // let labelPassword = document.getElementById("input-label-password");
+    // let labelPasswordConfirm = document.getElementById("input-label-password-confirm");
+    // let labelNickname = document.getElementById("input-label-nickname");
+    // let labelEmail = document.getElementById("input-label-email");
+
+    // function toggleInputLabel(input, label) {
+    //   if (input.value.trim() !== "") {
+    //     label.classList.add("input-focused");
+    //   } else {
+    //     label.classList.remove("input-focused");
+    //   }
+    // }
+
+    // id.addEventListener("input", function () {
+    //   toggleInputLabel(id, labelId);
+    // });
+
+    // password.addEventListener("input", function () {
+    //   toggleInputLabel(password, labelPassword);
+    // });
+
+    // passwordConfirm.addEventListener("input", function () {
+    //   toggleInputLabel(passwordConfirm, labelPasswordConfirm);
+    // });
+
+    // nickname.addEventListener("input", function () {
+    //   toggleInputLabel(nickname, labelNickname);
+    // });
+
+    // email.addEventListener("input", function () {
+    //   toggleInputLabel(email, labelEmail);
+    // });
+
+    // function checkIdExist(idValue) {
+    //   const data = { id: idValue };
+
+    //   return fetch('/checkid', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(data)
+    //   })
+    //     .then(response => response.text())
+    //     .then(result => result === 'true' || result === 'True')
+    //     .catch(error => {
+    //       console.error(error);
+    //       return false;
+    //     });
+    // }
+
+    // function validateId() {
+    //   if (id.value.trim() === "") {
+    //     id.setCustomValidity("아이디를 넣어주세요");
+    //     id.reportValidity();
+    //     return false;
+    //   } else if (id.value.replace(" ", "").length < 8 || id.value.replace(" ", "").length > 15) {
+    //     id.setCustomValidity("아이디는 8 ~ 15자 사이입니다.");
+    //     id.reportValidity();
+    //     return false;
+    //   } else if (hangeul.test(id.value)) {
+    //     id.setCustomValidity("영문으로 작성해주세요.");
+    //     id.reportValidity();
+    //     return false;
+    //   } else {
+    //     return true;
+    //   }
+    // }
+
+    // // return await checkIdExist(id.value)
+    // //       .then(idExists => {
+    // //         console.log(idExists)
+    // //         if (idExists) {
+    // //           console.log("아이디 중복")
+    // //           id.setCustomValidity("이미 존재하는 아이디입니다.");
+    // //           id.reportValidity();
+    // //           return false;
+    // //         }
+    // //         return true;
+    // //       });
+
+    // function validatePassword() {
+    //   if (password.value.trim() === "") {
+    //     password.setCustomValidity("비밀번호를 넣어주세요");
+    //     password.reportValidity();
+    //     return false;
+    //   } else if (password.value.length < 8) {
+    //     password.setCustomValidity("비밀번호는 최소 8자 이상이어야 합니다.");
+    //     password.reportValidity();
+    //     return false;
+    //   }
+
+    //   return true;
+    // }
+
+    // function validatePasswordConfirm() {
+    //   if (passwordConfirm.value.trim() === "") {
+    //     passwordConfirm.setCustomValidity("비밀번호 확인을 넣어주세요");
+    //     passwordConfirm.reportValidity();
+    //     return false;
+    //   } else if (passwordConfirm.value !== password.value) {
+    //     passwordConfirm.setCustomValidity("비밀번호가 일치하지 않습니다.");
+    //     passwordConfirm.reportValidity();
+    //     return false;
+    //   }
+
+    //   return true;
+    // }
+
+    // function validateNickname() {
+    //   if (nickname.value.trim() === "") {
+    //     nickname.setCustomValidity("닉네임을 넣어주세요");
+    //     nickname.reportValidity();
+    //     return false;
+    //   } else if (nickname.value.length > 15) {
+    //     nickname.setCustomValidity("닉네임은 최대 15자까지 입력 가능합니다.");
+    //     nickname.reportValidity();
+    //     return false;
+    //   }
+
+    //   return true;
+    // }
+
+    // function validateEmail() {
+    //   if (email.value.trim() === "") {
+    //     email.setCustomValidity("이메일을 넣어주세요");
+    //     email.reportValidity();
+    //     return false;
+    //   } else if (!email.value.includes("@")) {
+    //     email.setCustomValidity("올바른 이메일 주소를 입력해주세요.");
+    //     email.reportValidity();
+    //     return false;
+    //   }
+
+    //   return true;
+    // }
+
+    // form.addEventListener("submit", function (event) {
+    //   event.preventDefault(); // 기존의 제출 이벤트를 취소합니다.
+
+    //   id.setCustomValidity("");
+    //   password.setCustomValidity("");
+    //   password_confirm.setCustomValidity("");
+    //   nickname.setCustomValidity("");
+    //   email.setCustomValidity("");
+
+    //   checkIdExist(id.value)
+    //     .then(idExists => {
+    //       console.log(idExists);
+    //       if (idExists) {
+    //         id.setCustomValidity("이미 존재하는 아이디입니다.");
+    //         id.reportValidity();
+    //       }
+    //     })
+    //     .catch(error => {
+    //       console.error(error);
+    //       // 에러 처리 로직
+    //     });
+
+    //   // 중복 아이디 여부와 상관없이 각각의 유효성 검사를 수행합니다.
+    //   let isIdValid = validateId();
+    //   let isPasswordValid = validatePassword();
+    //   let isPasswordConfirmValid = validatePasswordConfirm();
+    //   let isNicknameValid = validateNickname();
+    //   let isEmailValid = validateEmail();
+
+    //   // 모든 유효성 검사가 통과한 경우 실행되는 코드
+    //   if (isIdValid && isPasswordValid && isPasswordConfirmValid && isNicknameValid && isEmailValid) {
+    //     this.submit();
+    //   }
+
+    //   return false; // 폼 제출을 막습니다.
+    //   // checkIdExist(id.value)
+    //   //   .then(idExists => {
+    //   //     console.log(idExists)
+    //   //     if (idExists) {
+    //   //       id.setCustomValidity("이미 존재하는 아이디입니다.");
+    //   //       id.reportValidity();
+    //   //       return false
+    //   //     }
+
+    //   //     if (validateId()) {
+    //   //         if (validatePassword()) {
+    //   //           if (validatePasswordConfirm()) {
+    //   //             if (validateNickname()) {
+    //   //               if (validateEmail()) {
+    //   //                 // 모든 유효성 검사가 통과한 경우 실행되는 코드
+    //   //                 this.submit();
+    //   //               }
+    //   //             }
+    //   //           }
+    //   //         }
+    //   //       }
+    //   //   })
+    //   //   .catch(error => {
+    //   //     console.error(error);
+    //   //     // 에러 처리 로직
+    //   //   });
+
+    //   // return false; // 폼 제출을 막습니다.
+    // });
+
+  </script>
+</body>
+
+</html>

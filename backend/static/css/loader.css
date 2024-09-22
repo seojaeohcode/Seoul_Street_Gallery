@@ -1,0 +1,47 @@
+.loader {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #ffffff;
+    z-index: 9990;
+    text-align: center;
+
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    /* 수직 정렬 */
+
+    -webkit-box-pack: center;
+    -moz-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    /* 수평 정렬 */
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.loaded {
+    display: none;
+}
+
+/* 모바일 기기 */
+@media only screen and (max-width: 767px) {
+    #animContainer {
+        width: 20vw;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+    #animContainer {
+        width: 15vw;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    #animContainer {
+        width: 10vw;
+    }
+}

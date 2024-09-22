@@ -1,0 +1,284 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap");
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+main {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 
+main {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+
+#container {
+    width: fit-content;
+}
+
+.label {
+    display: inline-block;
+}
+
+h1 {
+    display: flex;
+    align-items: center;
+    margin-top: 0;
+    margin-bottom: 2vh;
+}
+
+#title {
+    display: flex;
+    align-items: center;
+    color: #2359b5;
+}
+
+#title::before {
+    content: "";
+    display: inline-block;
+    width: 1rem;
+    height: 1.2em;
+    background-color: #2359b5;
+    margin-right: 10px;
+}
+
+.w-btn {
+    box-sizing: border-box;
+    position: relative;
+    border: none;
+    display: inline-block;
+    border-radius: 10px;
+    font-family: "paybooc-Light", sans-serif;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.25s;
+}
+
+.w-btn:hover {
+    letter-spacing: 2px;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.w-btn:active {
+    transform: scale(1.5);
+}
+
+.w-btn-gra1 {
+    background: linear-gradient(90deg, rgba(31, 203, 186, 1) 0%, rgba(0, 255, 102, 1) 100%);
+    color: white;
+}
+
+.w-btn-gra2 {
+    background: linear-gradient(90deg, rgba(203, 143, 31, 1) 0%, rgba(255, 0, 0, 1) 100%);
+    color: white;
+}
+
+#button-group {
+    width: fit-content;
+    margin: 0 auto;
+}
+
+#fix p {
+    display: flex;
+    align-items: center;
+}
+
+#fix input[type="text"]:focus,
+#fix input[type="password"]:focus,
+#fix input[type="email"]:focus {
+    border-color: #2359b5;
+}
+
+@media only screen and (max-width: 768px) {
+    .label {
+        width: 28vw;
+        font-size: 4vw;
+        border-right: 1.5px solid gray;
+    }
+
+    #button-group {
+        margin-top: 4vw;
+    }
+
+    .w-btn {
+        padding: 1.5vw 3vw;
+        border-radius: 0.5vw;
+        font-size: 2vw;
+    }
+
+    .w-btn-gra2 {
+        margin-left: 1vw;
+    }
+
+    #fix p input[type="text"],
+    #fix p input[type="password"],
+    #fix p input[type="email"] {
+        margin: 1vw;
+        width: 38vw;
+        padding: 0.4vw;
+        border-radius: 0.25vw;
+        border: 1px solid #ccc;
+        font-size: 2.5vw;
+    }
+
+    h1 {
+        font-size: 5vw;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .label {
+        width: 20vw;
+        border-right: 1.5px solid gray;
+        font-size: 3vw;
+    }
+
+    #button-group {
+        margin-top: 4vw;
+    }
+
+    .w-btn {
+        padding: 1vw 2.5vw;
+        border-radius: 0.6vw;
+        font-size: 1.4vw;
+    }
+
+    .w-btn-gra2 {
+        margin-left: 1.5vw;
+    }
+
+    #fix p input[type="text"],
+    #fix p input[type="password"],
+    #fix p input[type="email"] {
+        margin: 1vw;
+        width: 25vw;
+        padding: 0.4vw;
+        border-radius: 0.25vw;
+        border: 1px solid #ccc;
+        font-size: 2vw;
+    }
+
+    h1 {
+        font-size: 2.5vw;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    .label {
+        width: 13vw;
+        font-size: 1.6vw;
+        border-right: 1.5px solid gray;
+    }
+
+    #button-group {
+        margin-top: 3vw;
+    }
+
+    .w-btn {
+        padding: 0.8vw 1.8vw;
+        border-radius: 0.5vw;
+        font-size: 1.2vw;
+    }
+
+    .w-btn-gra2 {
+        margin-left: 2vw;
+    }
+
+    #fix p input[type="text"],
+    #fix p input[type="password"],
+    #fix p input[type="email"] {
+        margin: 1vw;
+        width: 20vw;
+        padding: 0.4vw;
+        border-radius: 0.25vw;
+        border: 1px solid #ccc;
+        font-size: 1.2vw;
+    }
+
+    h1 {
+        font-size: 2.5vw;
+    }
+
+    main{
+        margin-top: 10vh;
+        margin-bottom: 10vh;
+    }
+}
+
+
+/* @media only screen and (max-width: 767px) {
+    .label {
+        width: 22vw;
+        font-size: 2vw;
+        border-right: 1.5px solid gray;
+    }
+    
+    #button-group{
+        margin-top: 6vw;
+    }
+
+    .w-btn {
+        padding: 1.5vw 3vw;
+        border-radius: 1vw;
+        font-size: 2vw;
+    }
+    
+    .w-btn-gra2{
+        margin-left: 1vw;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+    .label {
+        width: 15vw;
+        border-right: 1.5px solid gray;
+    }
+
+    #button-group{
+        margin-top: 4vw;
+    }
+
+    .w-btn {
+        padding: 0.9vw 2.6vw;
+        border-radius: 1.3vw;
+        font-size: 1.3vw;
+    }
+
+    .w-btn-gra2{
+        margin-left: 1.5vw;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    .label {
+        width: 13vw;
+        border-right: 1.5px solid gray;
+    }    
+
+    #button-group{
+        margin-top: 2.5vw;
+    }
+
+    .w-btn {
+        padding: 0.8vw 1.9vw;
+        border-radius: 1vw;
+        font-size: 1.3vw;
+    }
+
+    .w-btn-gra2{
+        margin-left: 1.5vw;
+    }
+} */
