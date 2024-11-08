@@ -1,11 +1,9 @@
-# 서울시 열린데이터광장 웹앱 경진대회 출품작(TEAM Kapok)
-
 [보안 문제 예방을 위해 새 리포지토리로 이전했습니다.]
 <br>
-수상작 링크: https://data.seoul.go.kr/together/cpthb/cpthbHistView.do?bbsCd=10020&seq=935e09c4bfc23f7ae7d075b18d06f792&usrId=undefined&ditcCd=2023&ver=1&page=gallery
-
-# 🏆 Street Gallery 우수상 수상
-> **Team KAPOK** <br/> **개발기간: 2023.04 ~ 2024.07**
+# 🏆 우수상 수상
+# 서울시 열린데이터광장 웹앱 경진대회 출품작<br/>(TEAM Kapok - Street Gallery)
+> **Team KAPOK** <br/> **개발기간: 2023.04 ~ 2024.07**<br>
+> **수상작 링크:** https://data.seoul.go.kr/together/cpthb/cpthbHistView.do?bbsCd=10020&seq=935e09c4bfc23f7ae7d075b18d06f792&usrId=undefined&ditcCd=2023&ver=1&page=gallery
 
 # Demonstrate
 ---
