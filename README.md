@@ -1,6 +1,6 @@
 # 서울시 열린데이터광장 웹앱 경진대회 출품작(TEAM Kapok)
 
-[보안상 문제를 전부 제거하고 리포지토리를 옮겼습니다.]
+[보안 문제 예방을 위해 새 리포지토리로 이전했습니다.]
 <br>
 수상작 링크: https://data.seoul.go.kr/together/cpthb/cpthbHistView.do?bbsCd=10020&seq=935e09c4bfc23f7ae7d075b18d06f792&usrId=undefined&ditcCd=2023&ver=1&page=gallery
 
@@ -17,10 +17,14 @@ https://github.com/user-attachments/assets/9457174c-6dd2-4869-92e8-66f58ebd1bb9
 
 </div>
 
-[사용데이터 : 서울시 열린 데이터광장 오픈 데이터셋]
+## 사용한 공공데이터(서울시 열린 데이터광장 오픈 데이터셋)
+![20241109_004759](https://github.com/user-attachments/assets/484e5828-7aa1-4cc4-9b9c-bfa9c300171d)
 - 서울시 관리 공공 미술 목록
 - 서울시 기타조형물 현황
 - 서울은미술관 현황
+
+## 사용기술
+![20241109_005546](https://github.com/user-attachments/assets/1084a686-c717-4d58-aaa0-fd23dd720306)
 
 ## 프로젝트 소개
 StreetGallery는 공공미술 작품을 다양한 사용자들에게 제공하고, 작품과 상호작용할 수 있는 웹 기반의 공공미술 갤러리 플랫폼입니다. 
@@ -44,6 +48,8 @@ StreetGallery는 공공미술을 일상 속에서 쉽게 접할 수 있도록 �
 - 사회적 메시지 확산: 다양한 공공미술 작품이 지닌 사회적 메시지를 널리 전파하고, 대중의 문화적 이해도를 높입니다.
 - 데이터 구축을 통한 공공미술 연구 기여: 사용자 활동과 공공미술 작품에 대한 데이터를 수집하여, 공공미술 관련 연구와 개발에 활용할 수 있는 귀중한 자료를 제공합니다.
 
+## Information Architecture
+![20241109_004834](https://github.com/user-attachments/assets/ff0fb6e8-38e7-4fd0-8438-0f55652e664c)
 
 ## Street Gallery 개발팀 소개 (웹개발)
 
