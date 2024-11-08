@@ -18,7 +18,7 @@ https://github.com/user-attachments/assets/9457174c-6dd2-4869-92e8-66f58ebd1bb9
 </div>
 
 ## 사용한 공공데이터(서울시 열린 데이터광장 오픈 데이터셋)
-![20241109_004759](https://github.com/user-attachments/assets/484e5828-7aa1-4cc4-9b9c-bfa9c300171d)
+![20241109_010514](https://github.com/user-attachments/assets/9dd9383e-d8f8-4a88-969d-f2b3678880a2)
 - 서울시 관리 공공 미술 목록
 - 서울시 기타조형물 현황
 - 서울은미술관 현황
